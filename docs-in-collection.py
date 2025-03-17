@@ -13,7 +13,7 @@ ef = OllamaEmbeddingFunction(
 
 # chroma_client.delete_collection(name="spring-security")
 
-collection = chroma_client.get_or_create_collection(name="spring-security-2", embedding_function=ef)
+collection = chroma_client.get_collection(name="spring-security-2", embedding_function=ef)
 
 print('docs in collection:', collection.count())
 
@@ -21,11 +21,11 @@ print('docs in collection:', collection.count())
 
 
 
-print('docs from query:', collection.query(
-    query_texts=["AuthenicationManager"],
-    # n_results=2,
-    # where={"source": "\\Users\\mural\\Downloads\\spring-security-main\\spring-security-main\\core\\src\\main\\java\\org\\springframework\\security\\access\\AccessDecisionManager.java"}
-    ))
+# print('docs from query:', collection.query(
+#     query_texts=["AuthenicationManager"],
+#     # n_results=2,
+#     # where={"source": "\\Users\\mural\\Downloads\\spring-security-main\\spring-security-main\\core\\src\\main\\java\\org\\springframework\\security\\access\\AccessDecisionManager.java"}
+#     ))
 
 embed = OllamaEmbeddings(
     model="llama3.2"
@@ -37,4 +37,4 @@ vector_store_from_client = Chroma(
     create_collection_if_not_exists=False,
 )
 
-print("similarity search:", vector_store_from_client.similarity_search("AuthenicationManager", k=5))
+print("similarity search:", vector_store_from_client.similarity_search("list down implementations for AuthenticationManager", k=5))

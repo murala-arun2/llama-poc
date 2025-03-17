@@ -15,10 +15,12 @@ embed = OllamaEmbeddings(
 # Initialize ChromaDB client
 chroma_client = chromadb.HttpClient(host='localhost', port=8000)
 
-# collection = chroma_client.get_or_create_collection(name="spring-security-2")
+# chroma_client.delete_collection(name="spring-security-2")
+
+collection = chroma_client.get_or_create_collection(name="spring-security-2")
 
 # Define the path to the Java project source code folder
-java_project_path = "/Users/mural/Downloads/spring-security-main/spring-security-main/core/src/main/java"
+java_project_path = "E:\\code\\spring-security-main\\spring-security-main\\core\\src\\main\\java"
 
 loader = DirectoryLoader(java_project_path, glob="**/*.java", loader_cls=TextLoader)
 docs = loader.load()
@@ -26,7 +28,7 @@ print('total java files:', len(docs))
 print('docs[0]:', docs[0])
 
 splitter = RecursiveCharacterTextSplitter.from_language(
-    language=Language.JAVA, chunk_size=50, chunk_overlap=0
+    language=Language.JAVA, chunk_size=500, chunk_overlap=0
 )
 all_splits = splitter.split_documents(docs)
 print('files after split:', len(all_splits))
