@@ -6,29 +6,45 @@ import os
 
 class JavaASTListener(JavaParserListener):
     def __init__(self):
-        self.classMap = {}
+        # self.classMap = {}
         self.classes = []
         self.packageName = None
+        self.callStack = []
+        self.pendingImports = []
 
     def enterPackageDeclaration(self, ctx):
         self.packageName = ctx.qualifiedName().getText()
         print('package name: ', self.packageName)
         # return super().enterPackageDeclaration(ctx)
+
+    def enterImportDeclaration(self, ctx):
+        self.pendingImports.append(ctx.qualifiedName().getText())
+        # return super().enterImportDeclaration(ctx)
     
     def enterInterfaceDeclaration(self, ctx):
         interface_name = ctx.identifier().getText()
         print('interface name: ', interface_name)
         class_info = {
+            'type': 'interface',
             'class_name': interface_name,
             'class_type': 'interface',
             'package': self.packageName,
             'implementz': [],
             'extendz': None,
             'fields': [],
-            'methods': []
+            'methods': [],
+            'methodCalls': [],
+            'imports': [importt for importt in self.pendingImports]
         }
+        self.pendingImports = []
         self.classes.append(class_info)
+        self.callStack.append(class_info)
         # return super().enterInterfaceDeclaration(ctx)
+
+    def exitInterfaceCreator(self, ctx):
+        print('exit interface creator')
+        self.callStack.pop()
+        # return super().exitInnerCreator(ctx)
 
     def enterInterfaceBody(self, ctx):
         print('ctx interface body text: ')
@@ -42,22 +58,47 @@ class JavaASTListener(JavaParserListener):
         print('ctx generic interface method text: ', ctx.getText(), dir(ctx.interfaceCommonBodyDeclaration()))
         method_name = ctx.interfaceCommonBodyDeclaration().identifier().getText()
         return_type = ctx.interfaceCommonBodyDeclaration().typeTypeOrVoid().getText()
-        formal_params = [[param.variableDeclaratorId().getText(), param.typeType().getText()] for param in ctx.interfaceCommonBodyDeclaration().formalParameters().formalParameterList().formalParameter()] if ctx.interfaceCommonBodyDeclaration().formalParameters().formalParameterList() else []
-        print(method_name, return_type, formal_params)
+        formal_params = [{'param_name':param.variableDeclaratorId().getText(), 'param_type': param.typeType().getText()} for param in ctx.interfaceCommonBodyDeclaration().formalParameters().formalParameterList().formalParameter()] if ctx.interfaceCommonBodyDeclaration().formalParameters().formalParameterList() else []
+        method_info = {
+            'type': 'method',
+            'method_name': method_name,
+            'return_type': return_type,
+            'formal_params': formal_params,
+            'methodCalls': []
+        }
+        print('method_info :', method_info)
         if self.classes:
-            self.classes[-1]['methods'].append([method_name, return_type, formal_params])
+            self.classes[-1]['methods'].append(method_info)
             # print('self.classes[-1]: ', self.classes[-1])
+        self.callStack.append(method_info)
+
+    def exitGenericInterfaceMethodDeclaration(self, ctx):
+        print('exit generic method declaration')
+        self.callStack.pop()
+        # return super().exitGenericMethodDeclaration(ctx)
 
     def enterInterfaceMethodDeclaration(self, ctx):
         print('ctx interface method text: ', ctx.getText(), dir(ctx.interfaceCommonBodyDeclaration()))
         method_name = ctx.interfaceCommonBodyDeclaration().identifier().getText()
         return_type = ctx.interfaceCommonBodyDeclaration().typeTypeOrVoid().getText()
-        formal_params = [[param.variableDeclaratorId().getText(), param.typeType().getText()] for param in ctx.interfaceCommonBodyDeclaration().formalParameters().formalParameterList().formalParameter()] if ctx.interfaceCommonBodyDeclaration().formalParameters().formalParameterList() else []
-        print(method_name, return_type, formal_params)
+        formal_params = [{'param_name':param.variableDeclaratorId().getText(), 'param_type':param.typeType().getText()} for param in ctx.interfaceCommonBodyDeclaration().formalParameters().formalParameterList().formalParameter()] if ctx.interfaceCommonBodyDeclaration().formalParameters().formalParameterList() else []
+        method_info = {
+            'type': 'method',
+            'method_name': method_name,
+            'return_type': return_type,
+            'formal_params': formal_params,
+            'methodCalls': []
+        }
+        print('method_info :', method_info)
         if self.classes:
-            self.classes[-1]['methods'].append([method_name, return_type, formal_params])
+            self.classes[-1]['methods'].append(method_info)
+        self.callStack.append(method_info)
         # return super().enterInterfaceMethodDeclaration(ctx)
     
+    def exitInterfaceMethodDeclaration(self, ctx):
+        print('exit interface method declaration')
+        self.callStack.pop()
+        # return super().exitInterfaceMethodDeclaration(ctx)
 
     def enterClassDeclaration(self, ctx:JavaParser.ClassDeclarationContext):
         # Extract class name
@@ -68,15 +109,25 @@ class JavaASTListener(JavaParserListener):
         extendz = ctx.typeType().getText() if ctx.typeType() else None
         print('extends:', extendz)
         class_info = {
+            'type': 'class',
             'class_name': class_name,
             'class_type': 'class',
             'package': self.packageName,
             'implementz': implementz,
             'extendz': extendz,
             'fields': [],
-            'methods': []
+            'methods': [],
+            'methodCalls': [],
+            'imports': [importt for importt in self.pendingImports]
         }
+        self.pendingImports = []
         self.classes.append(class_info)
+        self.callStack.append(class_info)
+
+    def exitClassDeclaration(self, ctx):
+        print('exit class declaration')
+        self.callStack.pop()
+        # return super().exitClassDeclaration(ctx)
 
     def enterFieldDeclaration(self, ctx:JavaParser.FieldDeclarationContext):
         # Extract field names (attributes)
@@ -85,18 +136,87 @@ class JavaASTListener(JavaParserListener):
         # [print('variable declarator', ctx.typeType().getText(), declarator.variableDeclaratorId().identifier().getText(), dir(declarator.variableDeclaratorId())) for declarator in ctx.variableDeclarators().variableDeclarator()]
         # [print(, declarator.get) for declarator in ctx.variableDeclarators().variableDeclarator()]
         fields = [[declarator.variableDeclaratorId().identifier().getText(), ctx.typeType().getText()] for declarator in ctx.variableDeclarators().variableDeclarator()]
-        if self.classes:
-            self.classes[-1]['fields'].extend(fields)
+        for field in fields:
+            field_info = {
+                'type': 'field',
+                'field_name': field[0],
+                'field_type': field[1],
+                'methodCalls': []
+            }
+            if self.classes:
+                print('self.classes[-1][\'fields\']: ', self.classes[-1]['fields'])
+                self.classes[-1]['fields'].append(field_info)
+                print('self.classes[-1][\'fields\']: ', self.classes[-1]['fields'])
+            # self.callStack.append(field_info)
+
+    def exitFieldDeclaration(self, ctx):
+        print('exit field declaration')
+        # self.callStack.pop()
+        # return super().exitFieldDeclaration(ctx)
 
     def enterMethodDeclaration(self, ctx:JavaParser.MethodDeclarationContext):
         # Extract method names
         print('ctx method text: ', ctx.identifier().getText())
         method_name = ctx.identifier().getText()
         return_type = ctx.typeTypeOrVoid().getText()
-        formal_params = [[param.variableDeclaratorId().getText(), param.typeType().getText()] for param in ctx.formalParameters().formalParameterList().formalParameter()] if ctx.formalParameters().formalParameterList() else []
-        print(method_name, return_type, formal_params)
+        formal_params = [{'param_name': param.variableDeclaratorId().getText(), 'param_type': param.typeType().getText()} for param in ctx.formalParameters().formalParameterList().formalParameter()] if ctx.formalParameters().formalParameterList() else []
+        method_info = {
+            'type': 'method',
+            'method_name': method_name,
+            'return_type': return_type,
+            'formal_params': formal_params,
+            'methodCalls': []
+        }
+        # print('method_info :', method_info)
         if self.classes:
-            self.classes[-1]['methods'].append([method_name, return_type, formal_params])
+            self.classes[-1]['methods'].append(method_info)
+        self.callStack.append(method_info)
+
+    def exitMethodDeclaration(self, ctx):
+        print('exit method declaration')
+        self.callStack.pop()
+        # return super().exitMethodDeclaration(ctx)
+
+    # def enterMethodCallExpression(self, ctx):
+    #     print('ctx method call expression text: ', ctx.getText())
+    #     # return super().enterMethodCallExpression(ctx)
+
+    def enterMemberReferenceExpression(self, ctx):
+        print('ctx member reference expression text: ', ctx.getText())
+        if len(self.callStack) > 0: # todo on Class level annotation references like Scope.SINGLETON
+            self.callStack[-1]['methodCalls'].append(ctx.getText())
+        # return super().enterMemberReferenceExpression(ctx)
+
+    # def enterMethodReferenceExpression(self, ctx):
+    #     print('ctx method reference expression text: ', ctx.getText())
+    #     # return super().enterMethodReferenceExpression(ctx)
+
+    # def enterMethodCall(self, ctx):
+    #     print('ctx method call text: ', ctx.getText())
+    #     print('callStack len: ', len(self.callStack))
+    #     self.callStack[-1]['methodCalls'].append(ctx.getText())
+    #     # return super().enterMethodCall(ctx)
+
+    def enterConstructorDeclaration(self, ctx):
+        print('ctx constructor text: ', ctx.getText())
+        params = [{'param_name': param.variableDeclaratorId().getText(), 'param_type': param.typeType().getText()} for param in ctx.formalParameters().formalParameterList().formalParameter()] if ctx.formalParameters().formalParameterList() else []
+        params_info = {
+            'type': 'constructor',
+            'method_name': ctx.identifier().getText(),
+            'return_type': None,
+            'formal_params': params,
+            'methodCalls': []
+        }
+        # print('params_info:', params_info)
+        if self.classes:
+            self.classes[-1]['methods'].append(params_info)
+        self.callStack.append(params_info)
+        # return super().enterConstructorDeclaration(ctx)
+
+    def exitConstructorDeclaration(self, ctx):
+        self.callStack.pop()
+        # return super().exitConstructorDeclaration(ctx)
+    
 
 def parse_java_file(file_path):
     input_stream = FileStream(file_path, encoding='utf-8')
@@ -116,18 +236,44 @@ def generate_plantuml(classes):
     plantuml_code = '@startuml\n'
 
     for class_info in classes:
+        print('class_info:', class_info)
+        methodCalls_info = []
         # Define the class
         plantuml_code += f'{class_info["class_type"]} {class_info['package']}.{class_info["class_name"]} {'extends '+class_info['extendz'] if class_info['extendz'] else ''} {'implements '+(','.join(class_info['implementz'])) if len(class_info['implementz']) > 0 else ''}  {{\n'
 
         # Add fields
-        for field in class_info['fields']:
-            plantuml_code += f'  {field[0]} : {field[1]}\n'  # Defaulting type to String for simplicity
+        for field_info in class_info['fields']:
+            # print('field_info:', field_info)
+            plantuml_code += f'  {field_info['field_name']} : {field_info['field_type']}\n'  # Defaulting type to String for simplicity
 
         # Add methods
-        for method in class_info['methods']:
-            plantuml_code += f'  {method[0]}({", ".join([param[1]+" "+param[0] for param in method[2]])}) : {method[1]}\n'  # Defaulting to void for simplicity
-
+        for method_info in class_info['methods']:
+            plantuml_code += f'  {method_info['method_name']}({", ".join([param['param_name']+" : "+param['param_type'] for param in method_info['formal_params']])}) : {method_info['return_type']}\n'  # Defaulting to void for simplicity
+            methodCalls_info.append({
+                'method_name': method_info['method_name'],
+                'methodCalls': method_info['methodCalls']
+            })
         plantuml_code += '}\n'
+
+        # Add method calls
+        for methodCall_info in methodCalls_info:
+            for methodCall in methodCall_info['methodCalls']:
+                methodCall_on_object = methodCall.split('.')[0]
+                print('methodCall_on_object:', methodCall_on_object)
+                if methodCall_on_object == 'this' or methodCall_on_object == 'super' or methodCall_on_object.find('(') > -1:
+                    continue
+                vars = [{'name': field['field_name'], 'type': field['field_type']} for field in class_info['fields']]
+                vars.extend([{'name': param['param_name'], 'type': param['param_type']} for param in method_info['formal_params']])
+                varr = [param for param in vars if param['name'] == methodCall_on_object]
+                if len(varr) > 0:
+                    typee = varr[0]['type']
+                    full_varr = [importt for importt in class_info['imports'] if importt.endswith(f'.{typee}')]
+                    if len(full_varr) > 0:
+                        if(full_varr[0].endswith('.Log') or full_varr[0].endswith('.Logger')):
+                            continue
+                        function_name = methodCall.split('.')[1].split('(')[0]
+                        plantuml_code += f'{class_info["package"]}.{class_info["class_name"]}::{methodCall_info['method_name']} --> {full_varr[0]}::{function_name} : {methodCall} \n'
+
 
     plantuml_code += '@enduml\n'
     
