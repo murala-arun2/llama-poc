@@ -232,17 +232,26 @@ def parse_java_file(file_path):
 
     return listener.classes
 
-def generate_plantuml(classes):
-
-    
-
-    plantuml_code = '@startuml\n'
-
+def generate_definition(map):
+    plantuml_code = ''
+    for item in map.items():
+        key, value = item
+        print('key :', key, 'value :', value)
+        if key == "classes":
+            continue
+        plantuml_code += f'package {key} {{\n'
+        plantuml_code += generate_definition(value)
+        plantuml_code += '}\n'
+    classes = map.get("classes") if map.get("classes") else []
     for class_info in classes:
-        print('class_info:', class_info)
+        # print('class_info:', class_info)
         methodCalls_info = []
         # Define the class
-        plantuml_code += f'{class_info["class_type"]} {class_info['package']}.{class_info["class_name"]} {'extends '+class_info['extendz'] if class_info['extendz'] else ''} {'implements '+(','.join(class_info['implementz'])) if len(class_info['implementz']) > 0 else ''}  {{\n'
+        extendzz = [imp for imp in class_info['imports'] if imp.endswith(f'.{class_info['extendz']}')]
+        extendzz = extendzz[0] if len(extendzz) > 0 else None
+        implementzz = [list(filter(lambda imp: imp.endswith(f'.{impp}'), class_info['imports'])) for impp in class_info["implementz"]]
+        implementzz = [imp[0] for imp in implementzz if len(imp) > 0]
+        plantuml_code += f'{class_info["class_type"]} {class_info["class_name"]} {'extends '+extendzz if extendzz else ''} {'implements '+(','.join(implementzz)) if len(implementzz) > 0 else ''}  {{\n'
 
         # Add fields
         for field_info in class_info['fields']:
@@ -263,7 +272,7 @@ def generate_plantuml(classes):
             for methodCall in methodCall_info['methodCalls']:
                 methodCall = methodCall.replace("this.", "")
                 methodCall_on_object = methodCall.split('.')[0]
-                print('methodCall_on_object:', methodCall, methodCall_on_object)
+                # print('methodCall_on_object:', methodCall, methodCall_on_object)
                 if methodCall_on_object == 'this' or methodCall_on_object == 'super' or methodCall.find('(') == -1:
                     # plantuml_code += f'{class_info["package"]}.{class_info["class_name"]}::{methodCall_info['method_name']} --> {full_varr[0]}::{function_name} : {methodCall} \n'
                     continue
@@ -282,9 +291,27 @@ def generate_plantuml(classes):
                         if(full_varr[0].endswith('.Log') or full_varr[0].endswith('.Logger')):
                             continue
                         function_name = methodCall.split('.')[1].split('(')[0]
-                        plantuml_code += f'{class_info["package"]}.{class_info["class_name"]}::{methodCall_info['method_name']} --> {full_varr[0]}::{function_name} : {methodCall} \n'
+                        plantuml_code += f'{class_info["class_name"]}::{methodCall_info['method_name']} --> {full_varr[0]}::{function_name} : {methodCall} \n'
+    return plantuml_code
 
+def generate_plantuml(classes):
+    classPackageMap = {}
+    for class_info in classes:
+        package = class_info["package"]
+        packageSplit = package.split(".")
+        currentPackage = classPackageMap
+        for name in packageSplit:
+            if not currentPackage.get(name):
+                currentPackage[name] = {}
+            currentPackage = currentPackage[name]
+        if not currentPackage.get("classes"):
+            currentPackage["classes"] = []
+        currentPackage["classes"].append(class_info)
 
+    print('classPackageMap :', classPackageMap)
+    
+    plantuml_code = '@startuml\n'
+    plantuml_code += generate_definition(classPackageMap)
     plantuml_code += '@enduml\n'
     
     return plantuml_code
