@@ -233,6 +233,9 @@ def parse_java_file(file_path):
     return listener.classes
 
 def generate_plantuml(classes):
+
+    
+
     plantuml_code = '@startuml\n'
 
     for class_info in classes:
@@ -258,10 +261,17 @@ def generate_plantuml(classes):
         # Add method calls
         for methodCall_info in methodCalls_info:
             for methodCall in methodCall_info['methodCalls']:
+                methodCall = methodCall.replace("this.", "")
                 methodCall_on_object = methodCall.split('.')[0]
-                print('methodCall_on_object:', methodCall_on_object)
-                if methodCall_on_object == 'this' or methodCall_on_object == 'super' or methodCall_on_object.find('(') > -1:
+                print('methodCall_on_object:', methodCall, methodCall_on_object)
+                if methodCall_on_object == 'this' or methodCall_on_object == 'super' or methodCall.find('(') == -1:
+                    # plantuml_code += f'{class_info["package"]}.{class_info["class_name"]}::{methodCall_info['method_name']} --> {full_varr[0]}::{function_name} : {methodCall} \n'
                     continue
+                elif methodCall_on_object.find('(') > -1: # method call within same class
+                    # method_name = methodCall_on_object.split('(')[0]
+                    # plantuml_code += f'{class_info["package"]}.{class_info["class_name"]}::{methodCall_info['method_name']} --> {class_info["package"]}.{class_info["class_name"]}::{method_name}() : {methodCall} \n'
+                    continue
+
                 vars = [{'name': field['field_name'], 'type': field['field_type']} for field in class_info['fields']]
                 vars.extend([{'name': param['param_name'], 'type': param['param_type']} for param in method_info['formal_params']])
                 varr = [param for param in vars if param['name'] == methodCall_on_object]
@@ -292,7 +302,7 @@ def parse_java_files_in_directory(directory_path):
 
 def main():
     # Directory containing Java source files
-    directory_path = 'E:\\code\\spring-security-main\\spring-security-main\\core\\src\\main\\java'
+    directory_path = 'C:\\Users\\pc\\Downloads\\hertzbeat-master\\hertzbeat-master\\hertzbeat-manager\\src\\main\java'
     
     # Parse all Java files
     java_files = parse_java_files_in_directory(directory_path)
@@ -310,7 +320,7 @@ def main():
     # Print or save the PlantUML code
     # print(plantuml_code)
     print('classes :', classes)
-    with open("output.puml", "w") as file:
+    with open("apache-hertzbeat-output.puml", "w") as file:
         file.write(plantuml_code)
 
 if __name__ == '__main__':
