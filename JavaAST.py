@@ -329,7 +329,7 @@ def parse_java_files_in_directory(directory_path):
 
 def main():
     # Directory containing Java source files
-    directory_path = 'C:\\Users\\pc\\Downloads\\hertzbeat-master\\hertzbeat-master\\hertzbeat-manager\\src\\main\java'
+    directory_path = 'E:\\code\\spring-security-main\\spring-security-main\\core\\src\\main\\java'
     
     # Parse all Java files
     java_files = parse_java_files_in_directory(directory_path)
@@ -347,7 +347,7 @@ def main():
     # Print or save the PlantUML code
     # print(plantuml_code)
     print('classes :', classes)
-    with open("apache-hertzbeat-output.puml", "w") as file:
+    with open("spring-security-core.puml", "w") as file:
         file.write(plantuml_code)
 
 if __name__ == '__main__':

@@ -14,13 +14,30 @@
 ```pip install chromadb```
 
 - Start chroma db 
-```chroma run --path /Apps/chromadb-data ```
+```chroma run --path e:\\code\\chromadb-data-1 ```
 
 - Load java project source code into chroma db 
 ```python34 load-data-to-chromadb-langchain.py ```
+  - discussion items
+    - chunking with small size - picks few lines of function
+    - adjusted chunks seperators (public, private, class etc) to use selective splitting
+    - adjuted chunck size to very big value to fit whole file in 1 document
 
 - Run similar search to find callers of a method (just chromdb only)
-```python34 similarity-search-chromadb.py ```
+```python34 docs-in-collection.py ```
+
+-
+java -DPLANTUML_LIMIT_SIZE=999999 -jar .\plantuml-1.2025.2.jar .\apache-hertzbeat-output.puml 
+
+starcoder with ta-prompt ==> in-context training mimic-ing previous conversation log
+https://huggingface.co/datasets/bigcode/ta-prompt
+https://github.com/bigcode-project/starcoder/issues/101
+
+codebert 512 length issue ??
+
+
+
+
 
  
 

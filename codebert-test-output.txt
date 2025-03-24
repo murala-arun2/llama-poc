@@ -1,0 +1,87 @@
+C:\Users\pc\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\cuda\__init__.py:235: UserWarning: 
+NVIDIA GeForce RTX 5070 with CUDA capability sm_120 is not compatible with the current PyTorch installation.
+The current PyTorch install supports CUDA capabilities sm_37 sm_50 sm_60 sm_61 sm_70 sm_75 sm_80 sm_86 sm_90 compute_37.
+If you want to use the NVIDIA GeForce RTX 5070 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
+
+  warnings.warn(
+total java files: 400
+E:\code\llama-poc\seq2seq_codebert.py:76: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\tensor\python_tensor.cpp:80.)
+  zero=torch.cuda.LongTensor(1).fill_(0)
+
+input :
+ /*
+ * Copyright 2004, 2005, 2006 Acegi Technology Pty Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.springframework.security.access;
+
+import java.util.Collection;
+
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.core.Authentication;
+
+/**
+ * Makes a final access control (authorization) decision.
+ *
+ * @author Ben Alex
+ * @deprecated Use {@link AuthorizationManager} instead
+ */
+@Deprecated
+public interface AccessDecisionManager {
+
+        /**
+         * Resolves an access control decision for the passed parameters.
+         * @param authentication the caller invoking the method (not null)
+         * @param object the secured object being called
+         * @param configAttributes the configuration attributes associated with the secured
+         * object being invoked
+         * @throws AccessDeniedException if access is denied as the authentication does not
+         * hold a required authority or ACL privilege
+         * @throws InsufficientAuthenticationException if access is denied as the
+         * authentication does not provide a sufficient level of trust
+         */
+        void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
+                        throws AccessDeniedException, InsufficientAuthenticationException;
+
+        /**
+         * Indicates whether this <code>AccessDecisionManager</code> is able to process
+         * authorization requests presented with the passed <code>ConfigAttribute</code>.
+         * <p>
+         * This allows the <code>AbstractSecurityInterceptor</code> to check every
+         * configuration attribute can be consumed by the configured
+         * <code>AccessDecisionManager</code> and/or <code>RunAsManager</code> and/or
+         * <code>AfterInvocationManager</code>.
+         * </p>
+         * @param attribute a configuration attribute that has been configured against the
+         * <code>AbstractSecurityInterceptor</code>
+         * @return true if this <code>AccessDecisionManager</code> can support the passed
+         * configuration attribute
+         */
+        boolean supports(ConfigAttribute attribute);
+
+        /**
+         * Indicates whether the <code>AccessDecisionManager</code> implementation is able to
+         * provide access control decisions for the indicated secured object type.
+         * @param clazz the class that is being queried
+         * @return <code>true</code> if the implementation can process the indicated class
+         */
+        boolean supports(Class<?> clazz);
+
+}
+
+
+output :
+ performanceMetal$.MetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetal mootMetalPET mootMetalMetalPET mootMetalPET mootMetalPET mootMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetalMetal
