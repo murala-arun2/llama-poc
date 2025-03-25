@@ -3,16 +3,21 @@ from langchain_ollama import OllamaEmbeddings
 from chromadb.utils.embedding_functions import OllamaEmbeddingFunction
 from langchain_chroma import Chroma
 
+# collection_name = "spring-security-4"
+collection_name = "spring-security-10000-starcoder2"
+# model_name = "llama3.2"
+model_name = "starcoder2"
+
 chroma_client = chromadb.HttpClient(host='localhost', port=8000)
 
 ef = OllamaEmbeddingFunction(
-    model_name="llama3.2",
+    model_name = model_name,
     url="http://localhost:11434/api/embeddings",
 )
 
 
 # chroma_client.delete_collection(name="spring-security")
-collection_name = "spring-security-4"
+
 collection = chroma_client.get_collection(name=collection_name, embedding_function=ef)
 
 print('docs in collection:', collection.count())
@@ -30,7 +35,7 @@ print('get_docs:', len(get_docs['ids']))
 #     ))
 
 embed = OllamaEmbeddings(
-    model="llama3.2"
+    model=model_name
 )
 vector_store_from_client = Chroma(
     client=chroma_client,

@@ -9,7 +9,8 @@ from langchain_text_splitters import (
 )
 
 embed = OllamaEmbeddings(
-    model="llama3.2"
+    # model="llama3.2"
+    model="starcoder2"
 )
 
 # Initialize ChromaDB client
@@ -17,11 +18,14 @@ chroma_client = chromadb.HttpClient(host='localhost', port=8000)
 
 # chroma_client.delete_collection(name="spring-security-2")
 # collection_name = "spring-security-4"
-collection_name = "hertzbeat-manager-10000"
+collection_name = "spring-security-10000-starcoder2"
+# collection_name = "hertzbeat-manager-10000"
+# collection_name = "hertzbeat-manager-startcoder2-10000"
 collection = chroma_client.get_or_create_collection(name=collection_name)
 
 # Define the path to the Java project source code folder
-java_project_path = "C:\\Users\\pc\\Downloads\\hertzbeat-master\\hertzbeat-master\\hertzbeat-manager\\src\\main\java"
+java_project_path = "E:\\code\\spring-security-main\\spring-security-main\\core\\src\\main\\java"
+# java_project_path = "C:\\Users\\pc\\Downloads\\hertzbeat-master\\hertzbeat-master\\hertzbeat-manager\\src\\main\\java"
 
 loader = DirectoryLoader(java_project_path, glob="**/*.java", loader_cls=TextLoader)
 docs = loader.load()

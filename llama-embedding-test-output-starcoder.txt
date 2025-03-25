@@ -1,0 +1,946 @@
+Context
+:
+
+
+
+You
+ are
+ a
+ java
+ developer
+ and
+ you
+ are
+ given
+ a
+ class
+ diagram
+ of
+ project
+ in
+ plant
+uml
+ syntax
+.
+
+
+
+
+Class
+ Diagram
+:
+
+
+
+
+`
+@
+start
+uml
+
+
+package
+ org
+ {
+
+
+package
+ apache
+ {
+
+
+package
+ h
+ert
+z
+beat
+ {
+
+
+package
+ manager
+ {
+
+
+package
+ component
+ {
+
+
+package
+ listener
+ {
+
+
+class
+ Time
+Zone
+Listener
+
+ {
+
+
+ objectMapper
+ :
+ ObjectMapper
+
+
+ on
+Event
+(
+event
+ :
+ System
+Config
+ChangeEvent
+)
+ :
+ void
+
+
+}
+
+
+TimeZone
+Listener
+::
+on
+Event
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+common
+.
+support
+.
+event
+.
+System
+Config
+ChangeEvent
+::
+getSource
+ :
+ event
+.
+getSource
+()
+
+
+
+TimeZone
+Listener
+::
+on
+Event
+ -->
+ com
+.
+fasterxml
+.
+jackson
+.
+databind
+.
+ObjectMapper
+::
+set
+TimeZone
+ :
+ objectMapper
+.
+set
+TimeZone
+(
+TimeZone
+.
+getDefault
+()).
+set
+DateFormat
+(
+simple
+DateFormat
+)
+
+
+
+TimeZone
+Listener
+::
+on
+Event
+ -->
+ com
+.
+fasterxml
+.
+jackson
+.
+databind
+.
+ObjectMapper
+::
+set
+TimeZone
+ :
+ objectMapper
+.
+set
+TimeZone
+(
+TimeZone
+.
+getDefault
+())
+
+
+
+}
+
+
+package
+ sd
+ {
+
+
+class
+ Service
+Discovery
+Worker
+
+ implements
+ org
+.
+springframework
+.
+beans
+.
+factory
+.
+Initializing
+Bean
+
+ {
+
+
+ monitor
+Service
+ :
+ Monitor
+Service
+
+
+ param
+Dao
+ :
+ Param
+Dao
+
+
+ monitor
+Dao
+ :
+ Monitor
+Dao
+
+
+ monitor
+Bind
+Dao
+ :
+ Monitor
+Bind
+Dao
+
+
+ collector
+Monitor
+Bind
+Dao
+ :
+ Collector
+Monitor
+Bind
+Dao
+
+
+ data
+Queue
+ :
+ Common
+Data
+Queue
+
+
+ worker
+Pool
+ :
+ Manager
+Worker
+Pool
+
+
+ Service
+Discovery
+Worker
+(
+monitor
+Service
+ :
+ Monitor
+Service
+,
+ param
+Dao
+ :
+ Param
+Dao
+,
+ monitor
+Dao
+ :
+ Monitor
+Dao
+,
+ monitor
+Bind
+Dao
+ :
+ Monitor
+Bind
+Dao
+,
+ collector
+Monitor
+Bind
+Dao
+ :
+ Collector
+Monitor
+Bind
+Dao
+,
+ data
+Queue
+ :
+ Common
+Data
+Queue
+,
+ worker
+Pool
+ :
+ Manager
+Worker
+Pool
+)
+ :
+ None
+
+
+ after
+Properties
+Set
+()
+ :
+ void
+
+
+}
+
+
+Service
+Discovery
+Worker
+::
+after
+Properties
+Set
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+scheduler
+.
+Manager
+Worker
+Pool
+::
+execute
+Job
+ :
+ worker
+Pool
+.
+execute
+Job
+(
+new
+Sd
+Update
+Task
+())
+
+
+
+class
+ S
+d
+Update
+Task
+
+ {
+
+
+ run
+()
+ :
+ void
+
+
+}
+
+
+}
+
+
+package
+ status
+ {
+
+
+class
+ Calculate
+Status
+
+ {
+
+
+ DEFAULT
+_
+CAL
+C
+UL
+ATE
+_
+INTERVAL
+_
+TIME
+ :
+ int
+
+
+ status
+Page
+Org
+Dao
+ :
+ Status
+Page
+Org
+Dao
+
+
+ status
+Page
+Component
+Dao
+ :
+ Status
+Page
+Component
+Dao
+
+
+ status
+Page
+History
+Dao
+ :
+ Status
+Page
+History
+Dao
+
+
+ monitor
+Dao
+ :
+ Monitor
+Dao
+
+
+ intervals
+ :
+ int
+
+
+ Calculate
+Status
+(
+status
+Page
+Org
+Dao
+ :
+ Status
+Page
+Org
+Dao
+,
+ status
+Page
+Component
+Dao
+ :
+ Status
+Page
+Component
+Dao
+,
+ status
+Properties
+ :
+ Status
+Properties
+,
+ status
+Page
+History
+Dao
+ :
+ Status
+Page
+History
+Dao
+,
+ monitor
+Dao
+ :
+ Monitor
+Dao
+)
+ :
+ None
+
+
+ start
+Calculate
+()
+ :
+ void
+
+
+ start
+Combine
+History
+()
+ :
+ void
+
+
+ get
+Calculate
+Status
+Intervals
+()
+ :
+ int
+
+
+}
+
+
+Calculate
+Status
+::
+start
+Calculate
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Status
+Page
+Org
+Dao
+::
+findAll
+ :
+ status
+Page
+Org
+Dao
+.
+findAll
+()
+
+
+
+Calculate
+Status
+::
+start
+Calculate
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Status
+Page
+Component
+Dao
+::
+findBy
+Org
+Id
+ :
+ status
+Page
+Component
+Dao
+.
+findBy
+Org
+Id
+(
+org
+Id
+)
+
+
+
+Calculate
+Status
+::
+start
+Calculate
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Monitor
+Dao
+::
+findAll
+ :
+ monitor
+Dao
+.
+findAll
+(
+specification
+)
+
+
+
+Calculate
+Status
+::
+start
+Calculate
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Status
+Page
+Component
+Dao
+::
+save
+ :
+ status
+Page
+Component
+Dao
+.
+save
+(
+component
+)
+
+
+
+Calculate
+Status
+::
+start
+Calculate
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Status
+Page
+History
+Dao
+::
+save
+ :
+ status
+Page
+History
+Dao
+.
+save
+(
+status
+Page
+History
+)
+
+
+
+Calculate
+Status
+::
+start
+Calculate
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Status
+Page
+Org
+Dao
+::
+save
+ :
+ status
+Page
+Org
+Dao
+.
+save
+(
+status
+Page
+Org
+)
+
+
+
+Calculate
+Status
+::
+start
+Combine
+History
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Status
+Page
+History
+Dao
+::
+find
+Status
+Page
+Hist
+ories
+By
+Timestamp
+Between
+ :
+ status
+Page
+History
+Dao
+.
+find
+Status
+Page
+Hist
+ories
+By
+Timestamp
+Between
+(
+pre
+Night
+Timestamp
+,
+mid
+night
+Timestamp
+)
+
+
+
+Calculate
+Status
+::
+start
+Combine
+History
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Status
+Page
+History
+Dao
+::
+delete
+All
+ :
+ status
+Page
+History
+Dao
+.
+delete
+All
+(
+status
+Page
+History
+List
+)
+
+
+
+Calculate
+Status
+::
+start
+Combine
+History
+ -->
+ org
+.
+apache
+.
+h
+ert
+z
+beat
+.
+manager
+.
+dao
+.
+Status
+Page
+History
+Dao
+::
+save
+ :
+ status
+Page
+History
+Dao
+.
+save
+(
+history
+)
+
+
+
+}
+
+
+}
