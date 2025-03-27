@@ -5,8 +5,10 @@ from huggingface_hub import login, whoami
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 # Load model and tokenizer
-model_name = "meta-llama/Llama-3.2-3B"
+# model_name = "meta-llama/Llama-3.2-3B"
 # model_name = "bigcode/starcoder2-3b"
+model_name = "microsoft/codebert-base"
+
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
     device_map="cuda",
@@ -91,3 +93,4 @@ input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
 # print tokens
 for id in input_ids[0]:
    print(tokenizer.decode(id))
+
