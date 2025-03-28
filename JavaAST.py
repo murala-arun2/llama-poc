@@ -318,15 +318,15 @@ def find_import(imports, class_name, package_name):
     if len(list(filter(lambda v: v == class_name, data_types))) > 0:
         return class_name
     class_name = class_name.split('<')[0]
-    imports = []
-    imports.extend(commonImports)
-    imports.extend(imports)
-    types = [imp for imp in imports if imp.endswith(f'.{class_name}')]
+    importss = []
+    importss.extend(commonImports)
+    importss.extend(imports)
+    types = [imp for imp in importss if imp.endswith(f'.{class_name}')]
     if len(types) > 0:
         return types[0]
     return f'{package_name}.{class_name}'
 
-def update_method_calls(imports, methodCalls, package_name):
+def update_method_calls(imports, varss, methodCalls, package_name, class_name):
     method_calls = []
     for call_info in methodCalls:
         target = call_info.replace('this.','')
@@ -337,40 +337,46 @@ def update_method_calls(imports, methodCalls, package_name):
             splits = target.split('(')
             params = splits[1].replace(')', '').split(',')
             method_calls.append({
-                "target_type": "this",
+                "target_type": f'{package_name}.{class_name}',
                 "target_name": "this",
                 "target_method_name": splits[0],
                 "target_params": params, # TODO
                 "usage": call_info
             })
         elif re.match("^[A-Z]", target): # static method invocation 
-            splits = target.split('.')
-            target_name = splits[0]
-            if splits[1].find('(') > 0:
-                splits = target.split('(')
-                params = splits[1].replace(')', '').split(',')
+            target_name, method_call = target.split('.')[:2]
+            if method_call.find('(') > 0:
+                method_name, params = method_call.split('(')[:2]
+                params = params.replace(')', '').split(',')
                 method_calls.append({
-                    "target_type": find_import(imports, splits[0], package_name),
+                    "target_type": find_import(imports, target_name, package_name),
                     "target_name": target_name,
-                    "target_method_name": splits[0],
+                    "target_method_name": method_name,
                     "target_params": params, # TODO
                     "usage": call_info
                 })
-        else:
-            # print('target :', target)
-            if target.find('.') > 0 and target.find('(') > 0:
-                splits = target.split('.')
-                target_name = splits[0]
-                if splits[1].find('(') > 0:
-                    splits = target.split('(')
-                    params = splits[1].replace(')', '').split(',')
+        elif target.find('.') > 0 and target.find('(') > target.find('.'):
+                target_name, method_call = target.split('.')[:2]
+                match_types = list(filter(lambda x: x["name"] == target_name, varss))
+                target_type = match_types[0]["type"] if len(match_types) > 0 else None
+                if method_call.find('(') > 0:
+                    target_method_name, params = method_call.split('(')[:2]
+                    params = params.replace(')', '').split(',')
                     method_calls.append({
-                        "target_type": None, # TODO
+                        "target_type": target_type, # TODO
                         "target_name": target_name,
-                        "target_method_name": splits[0],
+                        "target_method_name": target_method_name,
                         "target_params": params, # TODO
                         "usage": call_info
                     })
+        else:
+             method_calls.append({
+                "target_type": None, # TODO
+                "target_name": None,
+                "target_method_name": None,
+                "target_params": None, # TODO
+                "usage": call_info
+            })
     return method_calls
 
 def update_class_references_with_package_names(classes):
@@ -381,7 +387,7 @@ def update_class_references_with_package_names(classes):
         
         for field in class_info["fields"]:
             field["field_type"] = find_import(class_info["imports"], field["field_type"], class_info["package"])
-            field["methodCalls"] = update_method_calls(class_info["imports"], field["methodCalls"], class_info["package"])
+            field["methodCalls"] = update_method_calls(class_info["imports"], [], field["methodCalls"], class_info["package"], class_info["class_name"])
                     
         for member_info in class_info["methods"]:
             if member_info["return_type"] != None and member_info["return_type"] != "void":
@@ -391,7 +397,16 @@ def update_class_references_with_package_names(classes):
             for param in member_info["formal_params"]:
                 param["param_type"] = find_import(class_info["imports"], param["param_type"], class_info["package"])
 
-            member_info["methodCalls"] = update_method_calls(class_info["imports"], member_info["methodCalls"], class_info["package"])
+            varss = []
+            varss.extend([{
+                "name": field["field_name"],
+                "type": field["field_type"]
+            } for field in class_info["fields"]])
+            varss.extend([{
+                "name": param["param_name"],
+                "type": param["param_type"]
+            } for param in member_info["formal_params"]])
+            member_info["methodCalls"] = update_method_calls(class_info["imports"], varss, member_info["methodCalls"], class_info["package"], class_info["class_name"])
 
 def generate_plantuml(classes):
     classPackageMap = {}
