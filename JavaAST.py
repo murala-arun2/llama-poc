@@ -447,11 +447,11 @@ def main():
     
     # Print or save the PlantUML code
     # print(plantuml_code)
-    print('classes :', classes)
+    # print('classes :', classes)
     with open("spring-security-core.puml", "w") as file:
         file.write(plantuml_code)
     with open("spring-security-core.json", "w") as file:
-        file.write(dumps(classPackageMap))
+        file.write(dumps(all_classes))
     
 
 if __name__ == '__main__':
