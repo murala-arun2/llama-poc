@@ -2,7 +2,7 @@ import json
 from cog.torque import Graph
 
 
-g = Graph("spring-security-core")
+g = Graph("spring-security-core-4")
 
 with open('spring-security-core.json', 'r') as f:
     data = json.loads(f.read())
@@ -11,8 +11,38 @@ with open('spring-security-core.json', 'r') as f:
 def create_relationship(node_a, relationship, node_b):
     g.put(node_a, relationship, node_b)
     
-# Iterate over each class object in the parsed data
-for class_obj in data:
+# identify parent and interface classes
+parent_and_interface_map = dict()
+def add_child(parent_name, child_name):
+    if parent_and_interface_map.get(parent_name) == None:
+        parent_and_interface_map[parent_name] = {}
+    parent_and_interface_map[parent_name][child_name] = {}
+
+for class_obj in data.values():
+    class_name = f'{class_obj["package"]}.{class_obj["class_name"]}'
+    if class_obj["extendz"]:
+        add_child(class_obj["extendz"], class_name)
+    for imp in class_obj["implementz"]:
+        add_child(imp, class_name)
+print('\nparent_and_interface_map :', parent_and_interface_map)
+
+# Aggregate parent with children of children
+parent_aggregate_map = dict()
+def get_children(parent_name, children_names):
+    if parent_and_interface_map.get(parent_name):
+        children = parent_and_interface_map[parent_name].keys()
+        for child_name in children:
+            children_names.append(child_name)
+            get_children(child_name, children_names)
+
+for parent_name in parent_and_interface_map.keys():
+    children = []
+    get_children(parent_name, children)
+    parent_aggregate_map[parent_name] = children
+print('\nparent_aggregate_map :', parent_aggregate_map)
+
+# Iterate over each classes and create graph, also mark parent calls
+for class_obj in data.values():
     class_name = f'{class_obj["package"]}.{class_obj["class_name"]}'
 
     if class_obj["extendz"]:
@@ -27,14 +57,16 @@ for class_obj in data:
         create_relationship(class_name, 'member_field', field_name)
         create_relationship(field_name, 'type', field["field_type"])
     
-    method_name_counts={}
+    method_name_counts = dict()
 
     # Create relationships for methods
     for method in class_obj["methods"]:
-        count = method_name_counts.get(method["method_name"])
+        method_with_params = f'{method["method_name"]}_{len(method["formal_params"])}'
+        count = method_name_counts.get(method_with_params)
         idx = count if count else 1
-        method_name_counts[method["method_name"]] = idx + 1
-        method_name = f'{class_name}::{method["method_name"]}_{idx}'
+        method_name_counts[method_with_params] = idx + 1
+        method_name = f'{class_name}::{method_with_params}_{idx}'
+        # print('method_name :', method_name)
         create_relationship(class_name, 'member_method', method_name)
         create_relationship(method_name, 'return_type', f'{method["return_type"]}')
         
@@ -44,7 +76,19 @@ for class_obj in data:
         
         # Create relationships for method calls
         for method_call in method["methodCalls"]:
-            create_relationship(method_name, 'method_call', f'{method_call["target_type"]}::{method_call["target_method_name"]}_1')
+            if method_call["target_type"] and method_call["target_method_name"]:
+                target_method_name = f'{method_call["target_method_name"]}_{len(method_call["target_params"])}_1'
+                # create direct relationship
+                create_relationship(method_name, 'method_call', f'{method_call["target_type"]}::{method_call["target_method_name"]}_{len(method_call["target_params"])}_1')
+                # create child relationship
+                if parent_aggregate_map.get(method_call["target_type"]):
+                    for child_name in parent_aggregate_map[method_call["target_type"]]:
+                        create_relationship(method_name, 'method_call', f'{child_name}::{method_call["target_method_name"]}_{len(method_call["target_params"])}_1')
+                        if child_name == "org.springframework.security.access.SecurityConfig":
+                            print('call :', method_name, 'method_call', f'{child_name}::{method_call["target_method_name"]}_{len(method_call["target_params"])}_1')
+            # else:
+                # print('skipping method call :', method_call["usage"])
+        
 
 # Output the graph data (it will represent nodes and their relationships)
 print('\ncount :', g.v().count())
@@ -52,4 +96,6 @@ print('\nscan :', g.scan())
 print('\nclass :', g.v("org.springframework.security.access.SecurityConfig").all())
 print('\nfields :', g.v("org.springframework.security.access.SecurityConfig").out("member_field").all())
 print('\nmethods :', g.v("org.springframework.security.access.SecurityConfig").out("member_method").all())
-print('\nmethod_calls :', g.v("org.springframework.security.access.SecurityConfig::createListFromCommaDelimitedString_1").out("method_call").all())
+print('\nmethod_calls :', g.v("org.springframework.security.access.SecurityConfig::createListFromCommaDelimitedString_1_1").out("method_call").all())
+print('\ncall chain:',g.v("org.springframework.security.access.SecurityConfig::getAttribute_0_1").inc("method_call").all())
+# g.v("org.springframework.security.access.SecurityConfig").tag("from").out().tag("to").view("test1").render()

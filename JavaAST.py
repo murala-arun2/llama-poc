@@ -125,7 +125,7 @@ class JavaASTListener(JavaParserListener):
         print('exit interface method declaration')
         self.callStack.pop()
         # return super().exitInterfaceMethodDeclaration(ctx)
-
+    
     def enterClassDeclaration(self, ctx:JavaParser.ClassDeclarationContext):
         # Extract class name
         print('ctx class text: ', ctx.identifier().getText())
@@ -347,7 +347,7 @@ def update_method_calls(imports, varss, methodCalls, package_name, class_name):
             target_name, method_call = target.split('.')[:2]
             if method_call.find('(') > 0:
                 method_name, params = method_call.split('(')[:2]
-                params = params.replace(')', '').split(',')
+                params = params.strip().split(')')[0].split(',') if len(params.strip()) > 1 else []
                 method_calls.append({
                     "target_type": find_import(imports, target_name, package_name),
                     "target_name": target_name,
@@ -356,12 +356,12 @@ def update_method_calls(imports, varss, methodCalls, package_name, class_name):
                     "usage": call_info
                 })
         elif target.find('.') > 0 and target.find('(') > target.find('.'):
-                target_name, method_call = target.split('.')[:2]
+                target_name, method_call = target.split('.')[:2] # TODO fix this issue
                 match_types = list(filter(lambda x: x["name"] == target_name, varss))
                 target_type = match_types[0]["type"] if len(match_types) > 0 else None
                 if method_call.find('(') > 0:
                     target_method_name, params = method_call.split('(')[:2]
-                    params = params.replace(')', '').split(',')
+                    params = params.strip().split(')')[0].split(',') if len(params.strip()) > 1 else []
                     method_calls.append({
                         "target_type": target_type, # TODO
                         "target_name": target_name,
@@ -465,9 +465,12 @@ def main():
     # print('classes :', classes)
     with open("spring-security-core.puml", "w") as file:
         file.write(plantuml_code)
-    with open("spring-security-core.json", "w") as file:
-        file.write(dumps(all_classes))
-    
 
+    classMap = {}
+    for class_info in all_classes:
+        classMap[f'{class_info["package"]}.{class_info["class_name"]}'] = class_info
+    with open("spring-security-core.json", "w") as file:
+        file.write(dumps(classMap))
+    
 if __name__ == '__main__':
     main()
