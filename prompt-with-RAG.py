@@ -30,6 +30,7 @@ class State(TypedDict):
     ast_json: str
     files_from_llm: List[str]
     files_from_graphdb: List[str]
+    files_from_vectordb: List[str]
     question: str
     context: List[Document]
     answer: str
@@ -65,17 +66,17 @@ def get_call_chain_from_llm(state: State):
 def get_call_chain_from_graphdb(state: State):
     print("\nrunning get_call_chain_from_graphdb ...")
     g = json_to_graph.construct_graph(json.loads(state["ast_json"]))
-    call_chain = json_to_graph.find_call_chain(g, "SecurityConfig::getAttribute")
+    call_chain = json_to_graph.find_call_chain(g, "SecurityConfig::getAttribute") # TODO get from user question
     print('call_chain :', call_chain)
     files_list = [obj.get("id").split("::")[0] for obj in call_chain.get("result")]
     print('files_list from graphdb :', files_list)
     return { "files_from_graphdb" : files_list }
 
-# def retrieve_from_vectordb(state: State):
-#     print("state['question'] :\n", state["question"])
-#     retrieved_docs = vector_store.similarity_search(state["question"])
-#     print("retrieved_docs :\n", retrieved_docs)
-#     return {"context": retrieved_docs}
+def retrieve_from_vectordb(state: State):
+    print("\nrunning retrieve_from_vectordb ...")
+    retrieved_docs = vector_store.similarity_search(state["question"])
+    print("retrieved_docs :\n", retrieved_docs)
+    return {}
 
 
 # def generate_response(state: State):
@@ -102,6 +103,7 @@ graph_builder = StateGraph(State).add_sequence([
     load_class_diagram_and_ast_json, 
     get_call_chain_from_llm,
     get_call_chain_from_graphdb,
+    retrieve_from_vectordb,
     ])
 graph_builder.add_edge(START, "load_class_diagram_and_ast_json")
 graph = graph_builder.compile()
