@@ -1,0 +1,7 @@
+docs in collection: 426
+get_docs: 1
+similarity search: 4
+similarity docs: E:\code\spring-security-main\spring-security-main\core\src\main\java\org\springframework\security\access\method\MapBasedMethodSecurityMetadataSource.java
+similarity docs: E:\code\spring-security-main\spring-security-main\core\src\main\java\org\springframework\security\core\userdetails\User.java
+similarity docs: E:\code\spring-security-main\spring-security-main\core\src\main\java\org\springframework\security\authentication\dao\AbstractUserDetailsAuthenticationProvider.java
+similarity docs: E:\code\spring-security-main\spring-security-main\core\src\main\java\org\springframework\security\authorization\method\AuthorizationAdvisorProxyFactory.java

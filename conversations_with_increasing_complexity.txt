@@ -1,0 +1,1885 @@
+-----
+### Human: 
+Context: you are a java developer and can understand class diagram in plantuml syntax.
+User has project source code in his local folder and you are required to generate a response with list of java class names, so that user can prvide the source code for this classes for futher conversation.  
+
+Class Diagram:
+@startuml
+interface PaymentMethod {
+  +processPayment(): Boolean
+}
+class CreditCardPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+PaymentMethod <|-- CreditCardPayment
+@enduml
+
+Question:
+I have an interface `PaymentMethod` and a class `CreditCardPayment` implementing it. Can you explain how the payment method is processed and list of claases that you need source code, for you to perform further analysis?
+
+### AI Assistant:
+To understand how the payment method is processed:
+- `PaymentMethod` is an interface with the method `processPayment()`.
+- `CreditCardPayment` is a class that implements `PaymentMethod` and provides the implementation for the `processPayment()` method.
+Please provide the source code for the following files:
+`com.example.PaymentMethod.java, com.example.CreditCardPayment.java`
+Once you provide the code, I can help analyze how the payment is processed using `CreditCardPayment`.
+-----
+### Human: 
+Context: you are a java developer and can understand class diagram in plantuml syntax.
+User has project source code in his local folder and you are required to generate a response with list of java class names, so that user can prvide the source code for this classes for futher conversation.  
+
+Class Diagram:
+@startuml
+interface PaymentMethod {
+  +processPayment(): Boolean
+}
+class CreditCardPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+class PayPalPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+class PaymentProcessor {
+  -paymentMethod: PaymentMethod
+  +processPayment(): Boolean
+}
+PaymentMethod <|-- CreditCardPayment
+PaymentMethod <|-- PayPalPayment
+PaymentProcessor -- PaymentMethod
+@enduml
+
+Question:
+Can you explain how the `PaymentProcessor` uses the different payment methods, like `CreditCardPayment` and `PayPalPayment`?
+
+### AI Assistant:
+The `PaymentProcessor` class interacts with the `PaymentMethod` interface to process payments. Here's how the flow works:
+- `PaymentMethod` is an interface that defines the `processPayment()` method.
+- `CreditCardPayment` and `PayPalPayment` implement `PaymentMethod` and provide their own implementations of `processPayment()`.
+- `PaymentProcessor` uses `PaymentMethod` (either `CreditCardPayment` or `PayPalPayment`) to process the payment by invoking `processPayment()`.
+Please provide the source code files for the following classes:
+`com.example.PaymentMethod.java, com.example.CreditCardPayment.java, com.example.PayPalPayment.java, com.example.PaymentProcessor.java`
+Once you provide the code, I can help you analyze the payment processing flow in detail.
+
+-----
+### Human: 
+Context: you are a java developer and can understand class diagram in plantuml syntax.
+User has project source code in his local folder and you are required to generate a response with list of java class names, so that user can prvide the source code for this classes for futher conversation.  
+
+Class Diagram:
+@startuml
+interface PaymentMethod {
+  +processPayment(): Boolean
+}
+class CreditCardPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+class PayPalPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+class PaymentService {
+  -paymentMethod: PaymentMethod
+  +processPayment(): Boolean
+}
+class Order {
+  -paymentService: PaymentService
+  +createOrder(): void
+}
+PaymentMethod <|-- CreditCardPayment
+PaymentMethod <|-- PayPalPayment
+PaymentService -- PaymentMethod
+Order -- PaymentService
+@enduml
+
+Question:
+How does `Order::createOrder()` trigger different payment processing for credit card and PayPal payments in `PaymentService`?
+### AI Assistant:
+In this scenario, here's the flow of the payment processing:
+- `Order::createOrder()` interacts with `PaymentService` to process a payment.
+- `PaymentService` can use either `CreditCardPayment` or `PayPalPayment` as the `paymentMethod` (because they both implement `PaymentMethod`).
+- `PaymentService::processPayment()` invokes `processPayment()` on the selected `paymentMethod`, which either calls `CreditCardPayment::processPayment()` or `PayPalPayment::processPayment()`.
+Please provide the source code files for the following classes:
+`com.example.PaymentMethod.java, com.example.CreditCardPayment.java, com.example.PayPalPayment.java, com.example.PaymentService.java, com.example.Order.java`
+Once you provide the source code, I can help you analyze the different payment methods triggered within the order creation process.
+
+-----
+### Human: 
+Context: you are a java developer and can understand class diagram in plantuml syntax.
+User has project source code in his local folder and you are required to generate a response with list of java class names, so that user can prvide the source code for this classes for futher conversation.  
+
+Class Diagram:
+@startuml
+interface PaymentMethod {
+  +processPayment(): Boolean
+}
+class CreditCardPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+class PayPalPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+class User {
+  -role: String
+  +getRole(): String
+}
+class AdminUser extends User {
+  +getRole(): String
+}
+class RegularUser extends User {
+  +getRole(): String
+}
+class Order {
+  -paymentMethod: PaymentMethod
+  -user: User
+  +createOrder(): void
+}
+PaymentMethod <|-- CreditCardPayment
+PaymentMethod <|-- PayPalPayment
+Order -- PaymentMethod
+Order -- User
+@enduml
+Question:
+How does the `Order::createOrder()` behave differently for Admin and Regular users, and how does the role influence payment processing?
+### AI Assistant:
+The flow for creating an order and processing payment depends on the user's role:
+- `AdminUser` and `RegularUser` extend the `User` class, and both implement the `getRole()` method.
+- The `Order::createOrder()` method checks the `role` of the user (either `AdminUser` or `RegularUser`).
+- The payment method (`CreditCardPayment` or `PayPalPayment`) is selected based on the user�s role, and then `PaymentService::processPayment()` is invoked on the selected `paymentMethod`.
+Please provide the source code files for the following classes:
+`com.example.PaymentMethod.java com.example.CreditCardPayment.java, com.example.PayPalPayment.java, com.example.User.java, com.example.AdminUser.java, com.example.RegularUser.java, com.example.Order.java`
+Once you provide the source code, I can help you analyze the conditional logic and payment processing based on the user's role.
+-----
+### Human: 
+Context: you are a java developer and can understand class diagram in plantuml syntax.
+User has project source code in his local folder and you are required to generate a response with list of java class names, so that user can prvide the source code for this classes for futher conversation.  
+
+Class Diagram:
+@startuml
+interface PaymentMethod {
+  +processPayment(): Boolean
+}
+class CreditCardPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+class PayPalPayment implements PaymentMethod {
+  +processPayment(): Boolean
+}
+class User {
+  -role: String
+  +getRole(): String
+}
+class Order {
+  -paymentMethod: PaymentMethod
+  -user: User
+  +createOrder(): void
+}
+class ShippingService {
+  +processShipping(): void
+}
+class PaymentService {
+  -paymentMethod: PaymentMethod
+  +processPayment(): Boolean
+}
+Order -- PaymentMethod
+Order -- User
+Order -- ShippingService
+Order -- PaymentService
+@enduml
+Question:
+How does the `Order::createOrder()` method work with both `PaymentService` and `ShippingService` in handling payments and shipping for different user roles?
+### AI Assistant:
+In this scenario, here's the flow of the order creation process:
+- `Order::createOrder()` is responsible for both payment and shipping.
+- The `PaymentService` processes the payment by invoking the `processPayment()` method on the selected `paymentMethod` (either `CreditCardPayment` or `PayPalPayment`).
+- The `ShippingService` processes shipping independently after payment is completed.
+The user's role (Admin or Regular) can influence the payment method selection.
+Please provide the source code files for the following classes:
+`com.example.PaymentMethod.java, com.example.CreditCardPayment.java, com.example.PayPalPayment.java, com.example.User.java, com.example.Order.java, com.example.ShippingService.java, com.example.PaymentService.java`
+Once you provide the source code, I can help you understand how payments and shipping are handled together in the `createOrder()` process.
+
+-----
+### Human: 
+Context: you are a java developer and can understand class diagram in plantuml syntax.
+User has project source code in his local folder and you are required to generate a response with list of java class names, so that user can prvide the source code for this classes for futher conversation.  
+
+Class Diagram:
+@startuml
+
+class org.apache.hertzbeat.manager.Manager    {
+  main(args : String[]) : void
+  init() : void
+}
+class org.apache.hertzbeat.manager.component.listener.TimeZoneListener    {
+  objectMapper : ObjectMapper
+  onEvent(event : SystemConfigChangeEvent) : void
+}
+org.apache.hertzbeat.manager.component.listener.TimeZoneListener::onEvent --> org.apache.hertzbeat.common.support.event.SystemConfigChangeEvent::getSource : event.getSource() 
+org.apache.hertzbeat.manager.component.listener.TimeZoneListener::onEvent --> com.fasterxml.jackson.databind.ObjectMapper::setTimeZone : objectMapper.setTimeZone(TimeZone.getDefault()).setDateFormat(simpleDateFormat) 
+org.apache.hertzbeat.manager.component.listener.TimeZoneListener::onEvent --> com.fasterxml.jackson.databind.ObjectMapper::setTimeZone : objectMapper.setTimeZone(TimeZone.getDefault()) 
+class org.apache.hertzbeat.manager.component.sd.ServiceDiscoveryWorker  implements InitializingBean  {
+  monitorService : MonitorService
+  paramDao : ParamDao
+  monitorDao : MonitorDao
+  monitorBindDao : MonitorBindDao
+  collectorMonitorBindDao : CollectorMonitorBindDao
+  dataQueue : CommonDataQueue
+  workerPool : ManagerWorkerPool
+  ServiceDiscoveryWorker(monitorService : MonitorService, paramDao : ParamDao, monitorDao : MonitorDao, monitorBindDao : MonitorBindDao, collectorMonitorBindDao : CollectorMonitorBindDao, dataQueue : CommonDataQueue, workerPool : ManagerWorkerPool) : None
+  afterPropertiesSet() : void
+}
+org.apache.hertzbeat.manager.component.sd.ServiceDiscoveryWorker::afterPropertiesSet --> org.apache.hertzbeat.manager.scheduler.ManagerWorkerPool::executeJob : workerPool.executeJob(newSdUpdateTask()) 
+class org.apache.hertzbeat.manager.component.sd.SdUpdateTask  implements Runnable  {
+  run() : void
+}
+class org.apache.hertzbeat.manager.component.status.CalculateStatus    {
+  DEFAULT_CALCULATE_INTERVAL_TIME : int
+  statusPageOrgDao : StatusPageOrgDao
+  statusPageComponentDao : StatusPageComponentDao
+  statusPageHistoryDao : StatusPageHistoryDao
+  monitorDao : MonitorDao
+  intervals : int
+  CalculateStatus(statusPageOrgDao : StatusPageOrgDao, statusPageComponentDao : StatusPageComponentDao, statusProperties : StatusProperties, statusPageHistoryDao : StatusPageHistoryDao, monitorDao : MonitorDao) : None
+  startCalculate() : void
+  startCombineHistory() : void
+  getCalculateStatusIntervals() : int
+}
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCalculate --> org.apache.hertzbeat.manager.dao.StatusPageOrgDao::findAll : statusPageOrgDao.findAll() 
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCalculate --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::findByOrgId : statusPageComponentDao.findByOrgId(orgId) 
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCalculate --> org.apache.hertzbeat.manager.dao.MonitorDao::findAll : monitorDao.findAll(specification) 
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCalculate --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::save : statusPageComponentDao.save(component) 
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCalculate --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::save : statusPageHistoryDao.save(statusPageHistory) 
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCalculate --> org.apache.hertzbeat.manager.dao.StatusPageOrgDao::save : statusPageOrgDao.save(statusPageOrg) 
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCombineHistory --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::findStatusPageHistoriesByTimestampBetween : statusPageHistoryDao.findStatusPageHistoriesByTimestampBetween(preNightTimestamp,midnightTimestamp) 
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCombineHistory --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::deleteAll : statusPageHistoryDao.deleteAll(statusPageHistoryList) 
+org.apache.hertzbeat.manager.component.status.CalculateStatus::startCombineHistory --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::save : statusPageHistoryDao.save(history) 
+class org.apache.hertzbeat.manager.config.AiProperties    {
+  type : String
+  model : String
+  apiKey : String
+  apiSecret : String
+}
+class org.apache.hertzbeat.manager.config.AngularErrorViewResolver  implements ErrorViewResolver,Ordered  {
+  SERIES_VIEWS : Map<HttpStatus.Series,String>
+  NOT_FOUND_CODE : String
+  applicationContext : ApplicationContext
+  resources : WebProperties.Resources
+  templateAvailabilityProviders : TemplateAvailabilityProviders
+  order : int
+  AngularErrorViewResolver(applicationContext : ApplicationContext, webProperties : WebProperties) : None
+  resolveErrorView(request : HttpServletRequest, status : HttpStatus, model : Map<String,Object>) : ModelAndView
+  resolve(viewName : String, model : Map<String,Object>) : ModelAndView
+  resolveResource(viewName : String, model : Map<String,Object>) : ModelAndView
+  getOrder() : int
+  setOrder(order : int) : void
+}
+class org.apache.hertzbeat.manager.config.HtmlResourceView  implements View  {
+  resource : Resource
+  HtmlResourceView(resource : Resource) : None
+  getContentType() : String
+  render(model : Map<String,?>, request : HttpServletRequest, response : HttpServletResponse) : void
+}
+class org.apache.hertzbeat.manager.config.ConfigInitializer  implements SmartLifecycle  {
+  running : boolean
+  DEFAULT_JWT_SECRET : String
+  currentJwtSecret : String
+  systemGeneralConfigService : SystemGeneralConfigServiceImpl
+  systemSecretService : SystemSecretServiceImpl
+  templateConfigService : TemplateConfigServiceImpl
+  muteGeneralConfigService : MuteGeneralConfigServiceImpl
+  appService : AppService
+  generalConfigDao : GeneralConfigDao
+  objectMapper : ObjectMapper
+  initConfig() : void
+  start() : void
+  stop() : void
+  isRunning() : boolean
+  getPhase() : int
+}
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.manager.service.impl.SystemGeneralConfigServiceImpl::getConfig : systemGeneralConfigService.getConfig() 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> com.fasterxml.jackson.databind.ObjectMapper::setTimeZone : objectMapper.setTimeZone(TimeZone.getDefault()).setDateFormat(simpleDateFormat) 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> com.fasterxml.jackson.databind.ObjectMapper::setTimeZone : objectMapper.setTimeZone(TimeZone.getDefault()) 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> com.fasterxml.jackson.databind.ObjectMapper::writeValueAsString : objectMapper.writeValueAsString(systemConfig) 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.manager.service.impl.SystemGeneralConfigServiceImpl::type : systemGeneralConfigService.type() 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.base.dao.GeneralConfigDao::save : generalConfigDao.save(generalConfig2Save) 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.manager.service.impl.TemplateConfigServiceImpl::getConfig : templateConfigService.getConfig() 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.manager.service.AppService::updateCustomTemplateConfig : appService.updateCustomTemplateConfig(templateConfig) 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.manager.service.impl.SystemSecretServiceImpl::getConfig : systemSecretService.getConfig() 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.manager.service.impl.SystemSecretServiceImpl::saveConfig : systemSecretService.saveConfig(systemSecret) 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.manager.service.impl.MuteGeneralConfigServiceImpl::getConfig : muteGeneralConfigService.getConfig() 
+org.apache.hertzbeat.manager.config.ConfigInitializer::initConfig --> org.apache.hertzbeat.manager.service.impl.MuteGeneralConfigServiceImpl::saveConfig : muteGeneralConfigService.saveConfig(muteConfig) 
+class org.apache.hertzbeat.manager.config.FlywayConfiguration    {
+  flywayInitializer(flyway : Flyway) : FlywayMigrationInitializer
+}
+class org.apache.hertzbeat.manager.config.Dummy    {
+  delayedFlywayInitializer(flyway : Flyway, flywayProperties : FlywayProperties) : Dummy
+}
+class org.apache.hertzbeat.manager.config.HeaderRequestInterceptor  implements ClientHttpRequestInterceptor  {
+  intercept(request : HttpRequest, body : byte[], execution : ClientHttpRequestExecution) : ClientHttpResponse
+}
+org.apache.hertzbeat.manager.config.HeaderRequestInterceptor::intercept --> org.springframework.http.HttpRequest::getHeaders : request.getHeaders().getContentType() 
+org.apache.hertzbeat.manager.config.HeaderRequestInterceptor::intercept --> org.springframework.http.HttpRequest::getHeaders : request.getHeaders() 
+org.apache.hertzbeat.manager.config.HeaderRequestInterceptor::intercept --> org.springframework.http.HttpRequest::getHeaders : request.getHeaders().setContentType(MediaType.APPLICATION_JSON) 
+org.apache.hertzbeat.manager.config.HeaderRequestInterceptor::intercept --> org.springframework.http.HttpRequest::getHeaders : request.getHeaders() 
+org.apache.hertzbeat.manager.config.HeaderRequestInterceptor::intercept --> org.springframework.http.HttpRequest::getHeaders : request.getHeaders().add(HttpHeaders.CONNECTION,"close") 
+org.apache.hertzbeat.manager.config.HeaderRequestInterceptor::intercept --> org.springframework.http.HttpRequest::getHeaders : request.getHeaders() 
+org.apache.hertzbeat.manager.config.HeaderRequestInterceptor::intercept --> org.springframework.http.client.ClientHttpRequestExecution::execute : execution.execute(request,body) 
+class org.apache.hertzbeat.manager.config.JacksonConfig    {
+  customizer() : Jackson2ObjectMapperBuilderCustomizer
+  objectMapper(builder : Jackson2ObjectMapperBuilder) : ObjectMapper
+}
+org.apache.hertzbeat.manager.config.JacksonConfig::customizer --> org.springframework.http.converter.json.Jackson2ObjectMapperBuilder::modules : builder.modules(javaTimeModule).timeZone(TimeZone.getDefault()).dateFormat(simpleDateFormat) 
+org.apache.hertzbeat.manager.config.JacksonConfig::customizer --> org.springframework.http.converter.json.Jackson2ObjectMapperBuilder::modules : builder.modules(javaTimeModule).timeZone(TimeZone.getDefault()) 
+org.apache.hertzbeat.manager.config.JacksonConfig::customizer --> org.springframework.http.converter.json.Jackson2ObjectMapperBuilder::modules : builder.modules(javaTimeModule) 
+org.apache.hertzbeat.manager.config.JacksonConfig::objectMapper --> org.springframework.http.converter.json.Jackson2ObjectMapperBuilder::build : builder.build() 
+class org.apache.hertzbeat.manager.config.JpaAuditorConfig  implements AuditorAware<String>  {
+  getCurrentAuditor() : Optional<String>
+}
+class org.apache.hertzbeat.manager.config.ManagerSseManager    {
+  emitters : Map<Long,SseEmitter>
+  createEmitter(clientId : Long) : SseEmitter
+  broadcast(eventName : String, data : String) : void
+  broadcastImportTaskInProgress(taskName : String, progress : Integer) : void
+  broadcastImportTaskSuccess(taskName : String) : void
+  broadcastImportTaskFail(taskName : String, errMsg : String) : void
+  removeEmitter(clientId : Long) : void
+}
+class org.apache.hertzbeat.manager.config.RestTemplateConfig    {
+  restTemplate(factory : ClientHttpRequestFactory) : RestTemplate
+  simpleClientHttpRequestFactory() : ClientHttpRequestFactory
+}
+class org.apache.hertzbeat.manager.config.SchedulerConfig    {
+  consistentHasInstance() : ConsistentHash
+}
+class org.apache.hertzbeat.manager.config.SecurityCorsConfiguration    {
+  corsFilter() : FilterRegistrationBean
+}
+class org.apache.hertzbeat.manager.config.StatusProperties    {
+  calculate : CalculateProperties
+}
+class org.apache.hertzbeat.manager.config.CalculateProperties    {
+  interval : Integer
+}
+class org.apache.hertzbeat.manager.config.SwaggerConfig    {
+  SECURITY_SCHEME_NAME : String
+  springOpenApi() : OpenAPI
+}
+class org.apache.hertzbeat.manager.controller.AccountController    {
+  accountService : AccountService
+  authGetToken(loginDto : LoginDto) : ResponseEntity<Message<Map<String,String>>>
+  refreshToken(tokenDto : TokenDto) : ResponseEntity<Message<RefreshTokenResponse>>
+}
+org.apache.hertzbeat.manager.controller.AccountController::authGetToken --> org.apache.hertzbeat.manager.service.AccountService::authGetToken : accountService.authGetToken(loginDto) 
+org.apache.hertzbeat.manager.controller.AccountController::refreshToken --> org.apache.hertzbeat.manager.service.AccountService::refreshToken : accountService.refreshToken(tokenDto.getToken()) 
+org.apache.hertzbeat.manager.controller.AccountController::refreshToken --> org.apache.hertzbeat.manager.pojo.dto.TokenDto::getToken : tokenDto.getToken() 
+class org.apache.hertzbeat.manager.controller.AiController    {
+  aiServiceFactory : AiServiceFactoryImpl
+  aiProperties : AiProperties
+  requestAi(requestParam : AiControllerRequestParam) : Flux<ServerSentEvent<String>>
+}
+org.apache.hertzbeat.manager.controller.AiController::requestAi --> org.apache.hertzbeat.manager.service.ai.factory.AiServiceFactoryImpl::getAiServiceImplBean : aiServiceFactory.getAiServiceImplBean(aiProperties.getType()) 
+org.apache.hertzbeat.manager.controller.AiController::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getType : aiProperties.getType() 
+org.apache.hertzbeat.manager.controller.AiController::requestAi --> org.apache.hertzbeat.manager.pojo.dto.AiControllerRequestParam::getText : requestParam.getText() 
+class org.apache.hertzbeat.manager.controller.AppController    {
+  RISKY_STR_ARR : String[]
+  appService : AppService
+  queryAppParamDefines(app : String) : ResponseEntity<Message<List<ParamDefine>>>
+  queryPushDefine(monitorId : Long) : ResponseEntity<Message<Job>>
+  queryAutoGenerateDynamicAppDefine(monitorId : Long) : ResponseEntity<Message<Job>>
+  queryAppDefine(app : String) : ResponseEntity<Message<Job>>
+  queryAppDefineYml(app : String) : ResponseEntity<Message<String>>
+  deleteAppDefineYml(app : String) : ResponseEntity<Message<Void>>
+  newAppDefineYml(defineDto : MonitorDefineDto) : ResponseEntity<Message<Void>>
+  updateAppDefineYml(defineDto : MonitorDefineDto) : ResponseEntity<Message<Void>>
+  queryAppsHierarchy(lang : String) : ResponseEntity<Message<List<Hierarchy>>>
+  queryAppsHierarchyByApp(lang : String, app : String) : ResponseEntity<Message<List<Hierarchy>>>
+  getAllAppDefines(lang : String) : ResponseEntity<Message<Map<String,String>>>
+  getLang(lang : String) : String
+}
+org.apache.hertzbeat.manager.controller.AppController::queryAppParamDefines --> org.apache.hertzbeat.manager.service.AppService::getAppParamDefines : appService.getAppParamDefines(app.toLowerCase()) 
+org.apache.hertzbeat.manager.controller.AppController::queryPushDefine --> org.apache.hertzbeat.manager.service.AppService::getPushDefine : appService.getPushDefine(monitorId) 
+org.apache.hertzbeat.manager.controller.AppController::queryAutoGenerateDynamicAppDefine --> org.apache.hertzbeat.manager.service.AppService::getAutoGenerateDynamicDefine : appService.getAutoGenerateDynamicDefine(monitorId) 
+org.apache.hertzbeat.manager.controller.AppController::queryAppDefine --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(app.toLowerCase()) 
+org.apache.hertzbeat.manager.controller.AppController::queryAppDefineYml --> org.apache.hertzbeat.manager.service.AppService::getMonitorDefineFileContent : appService.getMonitorDefineFileContent(app) 
+org.apache.hertzbeat.manager.controller.AppController::deleteAppDefineYml --> org.apache.hertzbeat.manager.service.AppService::deleteMonitorDefine : appService.deleteMonitorDefine(app) 
+org.apache.hertzbeat.manager.controller.AppController::newAppDefineYml --> org.apache.hertzbeat.manager.service.AppService::applyMonitorDefineYml : appService.applyMonitorDefineYml(defineDto.getDefine(),false) 
+org.apache.hertzbeat.manager.controller.AppController::updateAppDefineYml --> org.apache.hertzbeat.manager.service.AppService::applyMonitorDefineYml : appService.applyMonitorDefineYml(defineDto.getDefine(),true) 
+org.apache.hertzbeat.manager.controller.AppController::queryAppsHierarchy --> org.apache.hertzbeat.manager.service.AppService::getAllAppHierarchy : appService.getAllAppHierarchy(newLang) 
+org.apache.hertzbeat.manager.controller.AppController::queryAppsHierarchyByApp --> org.apache.hertzbeat.manager.service.AppService::getAppHierarchy : appService.getAppHierarchy(app,newLang) 
+org.apache.hertzbeat.manager.controller.AppController::getAllAppDefines --> org.apache.hertzbeat.manager.service.AppService::getI18nApps : appService.getI18nApps(newLang) 
+class org.apache.hertzbeat.manager.controller.AuthTokenController    {
+  accountService : AccountService
+  generateToken() : ResponseEntity<Message<Map<String,String>>>
+}
+org.apache.hertzbeat.manager.controller.AuthTokenController::generateToken --> org.apache.hertzbeat.manager.service.AccountService::generateToken : accountService.generateToken() 
+class org.apache.hertzbeat.manager.controller.BulletinController    {
+  bulletinService : BulletinService
+  realTimeDataReader : RealTimeDataReader
+  addNewBulletin(bulletin : Bulletin) : ResponseEntity<Message<Void>>
+  editBulletin(bulletin : Bulletin) : ResponseEntity<Message<Void>>
+  getBulletin(id : Long) : ResponseEntity<Message<Bulletin>>
+  queryBulletins(search : String, pageIndex : Integer, pageSize : Integer) : ResponseEntity<Message<Page<Bulletin>>>
+  deleteBulletin(ids : List<Long>) : ResponseEntity<Message<Void>>
+  getAllMetricsData(id : Long) : ResponseEntity<Message<?>>
+}
+org.apache.hertzbeat.manager.controller.BulletinController::addNewBulletin --> org.apache.hertzbeat.manager.service.BulletinService::validate : bulletinService.validate(bulletin) 
+org.apache.hertzbeat.manager.controller.BulletinController::addNewBulletin --> org.apache.hertzbeat.manager.service.BulletinService::addBulletin : bulletinService.addBulletin(bulletin) 
+org.apache.hertzbeat.manager.controller.BulletinController::editBulletin --> org.apache.hertzbeat.manager.service.BulletinService::validate : bulletinService.validate(bulletin) 
+org.apache.hertzbeat.manager.controller.BulletinController::editBulletin --> org.apache.hertzbeat.manager.service.BulletinService::editBulletin : bulletinService.editBulletin(bulletin) 
+org.apache.hertzbeat.manager.controller.BulletinController::getBulletin --> org.apache.hertzbeat.manager.service.BulletinService::getBulletinById : bulletinService.getBulletinById(id).orElse(null) 
+org.apache.hertzbeat.manager.controller.BulletinController::getBulletin --> org.apache.hertzbeat.manager.service.BulletinService::getBulletinById : bulletinService.getBulletinById(id) 
+org.apache.hertzbeat.manager.controller.BulletinController::queryBulletins --> org.apache.hertzbeat.manager.service.BulletinService::getBulletins : bulletinService.getBulletins(search,pageIndex,pageSize) 
+org.apache.hertzbeat.manager.controller.BulletinController::deleteBulletin --> org.apache.hertzbeat.manager.service.BulletinService::deleteBulletins : bulletinService.deleteBulletins(ids) 
+org.apache.hertzbeat.manager.controller.BulletinController::getAllMetricsData --> org.apache.hertzbeat.warehouse.store.realtime.RealTimeDataReader::isServerAvailable : realTimeDataReader.isServerAvailable() 
+org.apache.hertzbeat.manager.controller.BulletinController::getAllMetricsData --> org.apache.hertzbeat.manager.service.BulletinService::buildBulletinMetricsData : bulletinService.buildBulletinMetricsData(id) 
+class org.apache.hertzbeat.manager.controller.CollectorController    {
+  collectorService : CollectorService
+  getCollectors(name : String, pageIndex : int, pageSize : Integer) : ResponseEntity<Message<Page<CollectorSummary>>>
+  onlineCollector(collectors : List<String>) : ResponseEntity<Message<Void>>
+  offlineCollector(collectors : List<String>) : ResponseEntity<Message<Void>>
+  deleteCollector(collectors : List<String>) : ResponseEntity<Message<Void>>
+  generateCollectorDeployInfo(collector : String) : ResponseEntity<Message<Map<String,String>>>
+}
+org.apache.hertzbeat.manager.controller.CollectorController::getCollectors --> org.apache.hertzbeat.manager.service.CollectorService::getCollectors : collectorService.getCollectors(name,pageIndex,pageSize) 
+org.apache.hertzbeat.manager.controller.CollectorController::onlineCollector --> org.apache.hertzbeat.manager.service.CollectorService::makeCollectorsOnline : collectorService.makeCollectorsOnline(collectors) 
+org.apache.hertzbeat.manager.controller.CollectorController::offlineCollector --> org.apache.hertzbeat.manager.service.CollectorService::makeCollectorsOffline : collectorService.makeCollectorsOffline(collectors) 
+org.apache.hertzbeat.manager.controller.CollectorController::generateCollectorDeployInfo --> org.apache.hertzbeat.manager.service.CollectorService::generateCollectorDeployInfo : collectorService.generateCollectorDeployInfo(collector) 
+class org.apache.hertzbeat.manager.controller.GeneralConfigController    {
+  configService : ConfigService
+  saveOrUpdateConfig(type : String, config : Object) : ResponseEntity<Message<String>>
+  getConfig(type : String) : ResponseEntity<Message<Object>>
+  updateTemplateAppConfig(app : String, template : TemplateConfig.AppTemplate) : ResponseEntity<Message<Void>>
+}
+org.apache.hertzbeat.manager.controller.GeneralConfigController::saveOrUpdateConfig --> org.apache.hertzbeat.manager.service.ConfigService::saveConfig : configService.saveConfig(type,config) 
+org.apache.hertzbeat.manager.controller.GeneralConfigController::getConfig --> org.apache.hertzbeat.manager.service.ConfigService::getConfig : configService.getConfig(type) 
+org.apache.hertzbeat.manager.controller.GeneralConfigController::updateTemplateAppConfig --> org.apache.hertzbeat.manager.service.ConfigService::updateTemplateAppConfig : configService.updateTemplateAppConfig(app,template) 
+class org.apache.hertzbeat.manager.controller.I18nController    {
+  appService : AppService
+  queryI18n(lang : String) : ResponseEntity<Message<Map<String,String>>>
+}
+org.apache.hertzbeat.manager.controller.I18nController::queryI18n --> org.apache.hertzbeat.manager.service.AppService::getI18nResources : appService.getI18nResources(lang) 
+class org.apache.hertzbeat.manager.controller.ManagerSseController    {
+  emitterManager : ManagerSseManager
+  ManagerSseController(emitterManager : ManagerSseManager) : None
+  subscribe() : SseEmitter
+}
+org.apache.hertzbeat.manager.controller.ManagerSseController::subscribe --> org.apache.hertzbeat.manager.config.ManagerSseManager::createEmitter : emitterManager.createEmitter(clientId) 
+class org.apache.hertzbeat.manager.controller.MetricsController    {
+  commonDataQueue : CommonDataQueue
+  getMetricsInfo() : ResponseEntity<Message<Map<String,Object>>>
+}
+class org.apache.hertzbeat.manager.controller.MonitorController    {
+  monitorService : MonitorService
+  addNewMonitor(monitorDto : MonitorDto) : ResponseEntity<Message<Void>>
+  modifyMonitor(monitorDto : MonitorDto) : ResponseEntity<Message<Void>>
+  getMonitor(id : long) : ResponseEntity<Message<MonitorDto>>
+  deleteMonitor(id : long) : ResponseEntity<Message<Void>>
+  detectMonitor(monitorDto : MonitorDto) : ResponseEntity<Message<Void>>
+  copyMonitor(id : Long) : ResponseEntity<Message<Void>>
+}
+org.apache.hertzbeat.manager.controller.MonitorController::addNewMonitor --> org.apache.hertzbeat.manager.service.MonitorService::validate : monitorService.validate(monitorDto,false) 
+org.apache.hertzbeat.manager.controller.MonitorController::addNewMonitor --> org.apache.hertzbeat.manager.service.MonitorService::addMonitor : monitorService.addMonitor(monitorDto.getMonitor(),monitorDto.getParams(),monitorDto.getCollector(),monitorDto.getGrafanaDashboard()) 
+org.apache.hertzbeat.manager.controller.MonitorController::modifyMonitor --> org.apache.hertzbeat.manager.service.MonitorService::validate : monitorService.validate(monitorDto,true) 
+org.apache.hertzbeat.manager.controller.MonitorController::modifyMonitor --> org.apache.hertzbeat.manager.service.MonitorService::modifyMonitor : monitorService.modifyMonitor(monitorDto.getMonitor(),monitorDto.getParams(),monitorDto.getCollector(),monitorDto.getGrafanaDashboard()) 
+org.apache.hertzbeat.manager.controller.MonitorController::getMonitor --> org.apache.hertzbeat.manager.service.MonitorService::getMonitorDto : monitorService.getMonitorDto(id) 
+org.apache.hertzbeat.manager.controller.MonitorController::deleteMonitor --> org.apache.hertzbeat.manager.service.MonitorService::getMonitor : monitorService.getMonitor(id) 
+org.apache.hertzbeat.manager.controller.MonitorController::deleteMonitor --> org.apache.hertzbeat.manager.service.MonitorService::deleteMonitor : monitorService.deleteMonitor(id) 
+org.apache.hertzbeat.manager.controller.MonitorController::detectMonitor --> org.apache.hertzbeat.manager.service.MonitorService::validate : monitorService.validate(monitorDto,null) 
+org.apache.hertzbeat.manager.controller.MonitorController::detectMonitor --> org.apache.hertzbeat.manager.service.MonitorService::detectMonitor : monitorService.detectMonitor(monitorDto.getMonitor(),monitorDto.getParams(),monitorDto.getCollector()) 
+org.apache.hertzbeat.manager.controller.MonitorController::copyMonitor --> org.apache.hertzbeat.manager.service.MonitorService::copyMonitor : monitorService.copyMonitor(id) 
+class org.apache.hertzbeat.manager.controller.MonitorsController    {
+  monitorService : MonitorService
+  getMonitors(ids : List<Long>, app : String, status : Byte, search : String, labels : String, sort : String, order : String, pageIndex : int, pageSize : int) : ResponseEntity<Message<Page<Monitor>>>
+  getAppMonitors(app : String) : ResponseEntity<Message<List<Monitor>>>
+  deleteMonitors(ids : List<Long>) : ResponseEntity<Message<Void>>
+  cancelManageMonitors(ids : List<Long>) : ResponseEntity<Message<Void>>
+  enableManageMonitors(ids : List<Long>) : ResponseEntity<Message<Void>>
+  export(ids : List<Long>, type : String, res : HttpServletResponse) : void
+  export(file : MultipartFile) : ResponseEntity<Message<Void>>
+  duplicateMonitors(ids : List<Long>) : ResponseEntity<Message<Void>>
+}
+org.apache.hertzbeat.manager.controller.MonitorsController::getMonitors --> org.apache.hertzbeat.manager.service.MonitorService::getMonitors : monitorService.getMonitors(ids,app,search,status,sort,order,pageIndex,pageSize,labels) 
+org.apache.hertzbeat.manager.controller.MonitorsController::getAppMonitors --> org.apache.hertzbeat.manager.service.MonitorService::getAppMonitors : monitorService.getAppMonitors(app) 
+org.apache.hertzbeat.manager.controller.MonitorsController::deleteMonitors --> org.apache.hertzbeat.manager.service.MonitorService::deleteMonitors : monitorService.deleteMonitors(newHashSet<>(ids)) 
+org.apache.hertzbeat.manager.controller.MonitorsController::cancelManageMonitors --> org.apache.hertzbeat.manager.service.MonitorService::cancelManageMonitors : monitorService.cancelManageMonitors(newHashSet<>(ids)) 
+org.apache.hertzbeat.manager.controller.MonitorsController::enableManageMonitors --> org.apache.hertzbeat.manager.service.MonitorService::enableManageMonitors : monitorService.enableManageMonitors(newHashSet<>(ids)) 
+org.apache.hertzbeat.manager.controller.MonitorsController::export --> org.apache.hertzbeat.manager.service.MonitorService::export : monitorService.export(ids,type,res) 
+org.apache.hertzbeat.manager.controller.MonitorsController::export --> org.apache.hertzbeat.manager.service.MonitorService::importConfig : monitorService.importConfig(file) 
+org.apache.hertzbeat.manager.controller.MonitorsController::duplicateMonitors --> org.apache.hertzbeat.manager.service.MonitorService::copyMonitors : monitorService.copyMonitors(ids) 
+class org.apache.hertzbeat.manager.controller.PluginController    {
+  pluginService : PluginService
+  uploadNewPlugin(pluginUpload : PluginUpload) : ResponseEntity<Message<Void>>
+  getPlugins(search : String, pageIndex : int, pageSize : int) : ResponseEntity<Message<Page<PluginMetadata>>>
+  deletePlugins(ids : List<Long>) : ResponseEntity<Message<Void>>
+  updatePluginStatus(plugin : PluginMetadata) : ResponseEntity<Message<Void>>
+  getParamDefine(pluginMetadataId : Long) : ResponseEntity<Message<PluginParametersVO>>
+  saveParams(pluginParams : List<PluginParam>) : ResponseEntity<Message<Boolean>>
+}
+org.apache.hertzbeat.manager.controller.PluginController::uploadNewPlugin --> org.apache.hertzbeat.manager.service.PluginService::savePlugin : pluginService.savePlugin(pluginUpload) 
+org.apache.hertzbeat.manager.controller.PluginController::getPlugins --> org.apache.hertzbeat.manager.service.PluginService::getPlugins : pluginService.getPlugins(search,pageIndex,pageSize) 
+org.apache.hertzbeat.manager.controller.PluginController::deletePlugins --> org.apache.hertzbeat.manager.service.PluginService::deletePlugins : pluginService.deletePlugins(newHashSet<>(ids)) 
+org.apache.hertzbeat.manager.controller.PluginController::updatePluginStatus --> org.apache.hertzbeat.manager.service.PluginService::updateStatus : pluginService.updateStatus(plugin) 
+org.apache.hertzbeat.manager.controller.PluginController::getParamDefine --> org.apache.hertzbeat.manager.service.PluginService::getParamDefine : pluginService.getParamDefine(pluginMetadataId) 
+org.apache.hertzbeat.manager.controller.PluginController::saveParams --> org.apache.hertzbeat.manager.service.PluginService::savePluginParam : pluginService.savePluginParam(pluginParams) 
+class org.apache.hertzbeat.manager.controller.StatusPageController    {
+  statusPageService : StatusPageService
+  queryStatusPageOrg() : ResponseEntity<Message<StatusPageOrg>>
+  saveStatusPageOrg(statusPageOrg : StatusPageOrg) : ResponseEntity<Message<StatusPageOrg>>
+  queryStatusPageComponent() : ResponseEntity<Message<List<StatusPageComponent>>>
+  newStatusPageComponent(statusPageComponent : StatusPageComponent) : ResponseEntity<Message<Void>>
+  updateStatusPageComponent(statusPageComponent : StatusPageComponent) : ResponseEntity<Message<Void>>
+  deleteStatusPageComponent(id : long) : ResponseEntity<Message<Void>>
+  queryStatusPageComponent(id : long) : ResponseEntity<Message<StatusPageComponent>>
+  newStatusPageIncident(incident : StatusPageIncident) : ResponseEntity<Message<Void>>
+  updateStatusPageIncident(incident : StatusPageIncident) : ResponseEntity<Message<Void>>
+  deleteStatusPageIncident(id : long) : ResponseEntity<Message<Void>>
+  queryStatusPageIncident(id : long) : ResponseEntity<Message<StatusPageIncident>>
+  queryStatusPageIncident() : ResponseEntity<Message<List<StatusPageIncident>>>
+}
+org.apache.hertzbeat.manager.controller.StatusPageController::queryStatusPageOrg --> org.apache.hertzbeat.manager.service.StatusPageService::queryStatusPageOrg : statusPageService.queryStatusPageOrg() 
+org.apache.hertzbeat.manager.controller.StatusPageController::saveStatusPageOrg --> org.apache.hertzbeat.manager.service.StatusPageService::saveStatusPageOrg : statusPageService.saveStatusPageOrg(statusPageOrg) 
+org.apache.hertzbeat.manager.controller.StatusPageController::queryStatusPageComponent --> org.apache.hertzbeat.manager.service.StatusPageService::queryStatusPageComponents : statusPageService.queryStatusPageComponents() 
+org.apache.hertzbeat.manager.controller.StatusPageController::newStatusPageComponent --> org.apache.hertzbeat.manager.service.StatusPageService::newStatusPageComponent : statusPageService.newStatusPageComponent(statusPageComponent) 
+org.apache.hertzbeat.manager.controller.StatusPageController::updateStatusPageComponent --> org.apache.hertzbeat.manager.service.StatusPageService::updateStatusPageComponent : statusPageService.updateStatusPageComponent(statusPageComponent) 
+org.apache.hertzbeat.manager.controller.StatusPageController::deleteStatusPageComponent --> org.apache.hertzbeat.manager.service.StatusPageService::deleteStatusPageComponent : statusPageService.deleteStatusPageComponent(id) 
+org.apache.hertzbeat.manager.controller.StatusPageController::queryStatusPageComponent --> org.apache.hertzbeat.manager.service.StatusPageService::queryStatusPageComponent : statusPageService.queryStatusPageComponent(id) 
+org.apache.hertzbeat.manager.controller.StatusPageController::newStatusPageIncident --> org.apache.hertzbeat.manager.service.StatusPageService::newStatusPageIncident : statusPageService.newStatusPageIncident(incident) 
+org.apache.hertzbeat.manager.controller.StatusPageController::updateStatusPageIncident --> org.apache.hertzbeat.manager.service.StatusPageService::updateStatusPageIncident : statusPageService.updateStatusPageIncident(incident) 
+org.apache.hertzbeat.manager.controller.StatusPageController::deleteStatusPageIncident --> org.apache.hertzbeat.manager.service.StatusPageService::deleteStatusPageIncident : statusPageService.deleteStatusPageIncident(id) 
+org.apache.hertzbeat.manager.controller.StatusPageController::queryStatusPageIncident --> org.apache.hertzbeat.manager.service.StatusPageService::queryStatusPageIncident : statusPageService.queryStatusPageIncident(id) 
+org.apache.hertzbeat.manager.controller.StatusPageController::queryStatusPageIncident --> org.apache.hertzbeat.manager.service.StatusPageService::queryStatusPageIncidents : statusPageService.queryStatusPageIncidents() 
+class org.apache.hertzbeat.manager.controller.StatusPagePublicController    {
+  statusPageService : StatusPageService
+  queryStatusPageOrg() : ResponseEntity<Message<StatusPageOrg>>
+  queryStatusPageComponent() : ResponseEntity<Message<List<ComponentStatus>>>
+  queryStatusPageComponent(id : long) : ResponseEntity<Message<ComponentStatus>>
+  queryStatusPageIncident() : ResponseEntity<Message<List<StatusPageIncident>>>
+}
+org.apache.hertzbeat.manager.controller.StatusPagePublicController::queryStatusPageOrg --> org.apache.hertzbeat.manager.service.StatusPageService::queryStatusPageOrg : statusPageService.queryStatusPageOrg() 
+org.apache.hertzbeat.manager.controller.StatusPagePublicController::queryStatusPageComponent --> org.apache.hertzbeat.manager.service.StatusPageService::queryComponentsStatus : statusPageService.queryComponentsStatus() 
+org.apache.hertzbeat.manager.controller.StatusPagePublicController::queryStatusPageComponent --> org.apache.hertzbeat.manager.service.StatusPageService::queryComponentStatus : statusPageService.queryComponentStatus(id) 
+org.apache.hertzbeat.manager.controller.StatusPagePublicController::queryStatusPageIncident --> org.apache.hertzbeat.manager.service.StatusPageService::queryStatusPageIncidents : statusPageService.queryStatusPageIncidents() 
+class org.apache.hertzbeat.manager.controller.SummaryController    {
+  monitorService : MonitorService
+  appMonitors() : ResponseEntity<Message<Dashboard>>
+}
+org.apache.hertzbeat.manager.controller.SummaryController::appMonitors --> org.apache.hertzbeat.manager.service.MonitorService::getAllAppMonitorsCount : monitorService.getAllAppMonitorsCount() 
+class org.apache.hertzbeat.manager.controller.TagController    {
+  tagService : TagService
+  addNewTags(tags : List<Tag>) : ResponseEntity<Message<Void>>
+  modifyMonitor(tag : Tag) : ResponseEntity<Message<Void>>
+  getTags(search : String, type : Byte, pageIndex : int, pageSize : int) : ResponseEntity<Message<Page<Tag>>>
+  deleteTags(ids : List<Long>) : ResponseEntity<Message<Void>>
+}
+org.apache.hertzbeat.manager.controller.TagController::addNewTags --> org.apache.hertzbeat.manager.service.TagService::addTags : tagService.addTags(tags) 
+org.apache.hertzbeat.manager.controller.TagController::modifyMonitor --> org.apache.hertzbeat.manager.service.TagService::modifyTag : tagService.modifyTag(tag) 
+org.apache.hertzbeat.manager.controller.TagController::getTags --> org.apache.hertzbeat.manager.service.TagService::getTags : tagService.getTags(search,type,pageIndex,pageSize) 
+org.apache.hertzbeat.manager.controller.TagController::deleteTags --> org.apache.hertzbeat.manager.service.TagService::deleteTags : tagService.deleteTags(newHashSet<>(ids)) 
+interface org.apache.hertzbeat.manager.dao.BulletinDao    {
+  deleteByNameIn(names : List<String>) : void
+  findByName(name : String) : Bulletin
+  countByName(name : String) : int
+}
+interface org.apache.hertzbeat.manager.dao.CollectorDao    {
+  findCollectorByName(name : String) : Optional<Collector>
+  deleteCollectorByName(collector : String) : void
+}
+interface org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao    {
+  findCollectorMonitorBindsByCollector(collector : String) : List<CollectorMonitorBind>
+  findCollectorMonitorBindsByMonitorIdIn(monitorIds : Set<Long>) : List<CollectorMonitorBind>
+  findCollectorMonitorBindByMonitorId(monitorId : Long) : Optional<CollectorMonitorBind>
+  deleteCollectorMonitorBindsByMonitorId(monitorId : Long) : void
+}
+interface org.apache.hertzbeat.manager.dao.DefineDao    {
+}
+interface org.apache.hertzbeat.manager.dao.MonitorBindDao    {
+  findAllByBizIdInAndType(bizIdList : Set<Long>, type : byte) : List<MonitorBind>
+  findMonitorBindByBizIdAndType(bizId : Long, type : byte) : List<MonitorBind>
+  findMonitorBindByBizIdAndMonitorIdAndType(bizId : Long, monitorId : Long, type : byte) : MonitorBind
+  findAllByType(type : byte) : List<MonitorBind>
+  deleteByMonitorId(monitorId : Long) : void
+}
+interface org.apache.hertzbeat.manager.dao.MonitorDao    {
+  deleteAllByIdIn(monitorIds : Set<Long>) : void
+  findMonitorsByIdIn(monitorIds : Set<Long>) : List<Monitor>
+  findMonitorsByAppEquals(app : String) : List<Monitor>
+  findMonitorsByStatusNotInAndJobIdNotNull(status : List<Byte>) : List<Monitor>
+  findMonitorByNameEquals(name : String) : Optional<Monitor>
+  findAppsStatusCount() : List<AppCount>
+  updateMonitorStatus(id : Long, status : byte) : void
+}
+interface org.apache.hertzbeat.manager.dao.ParamDao    {
+  findParamsByMonitorId(monitorId : Long) : List<Param>
+  deleteParamsByMonitorId(monitorId : long) : void
+  deleteParamsByMonitorIdIn(monitorIds : Set<Long>) : void
+}
+interface org.apache.hertzbeat.manager.dao.ParamDefineDao    {
+  findParamDefinesByApp(app : String) : List<ParamDefine>
+}
+interface org.apache.hertzbeat.manager.dao.PluginItemDao    {
+  countPluginItemByClassIdentifierIn(classIdentifiers : List<String>) : int
+}
+interface org.apache.hertzbeat.manager.dao.PluginMetadataDao    {
+  countPluginMetadataByName(name : String) : int
+  findPluginMetadataByEnableStatusTrue() : List<PluginMetadata>
+}
+interface org.apache.hertzbeat.manager.dao.PluginParamDao    {
+  findParamsByPluginMetadataId(pluginMetadataId : Long) : List<PluginParam>
+  deletePluginParamsByPluginMetadataId(pluginMetadataId : long) : void
+  deletePluginParamsByPluginMetadataIdIn(pluginMetadataIds : Set<Long>) : void
+}
+interface org.apache.hertzbeat.manager.dao.StatusPageComponentDao    {
+  findByOrgId(orgId : long) : List<StatusPageComponent>
+}
+interface org.apache.hertzbeat.manager.dao.StatusPageHistoryDao    {
+  findStatusPageHistoriesByTimestampBetween(start : long, end : long) : List<StatusPageHistory>
+  findStatusPageHistoriesByComponentIdAndTimestampBetween(componentId : long, start : long, end : long) : List<StatusPageHistory>
+}
+interface org.apache.hertzbeat.manager.dao.StatusPageIncidentComponentBindDao    {
+  countByComponentId(componentId : long) : long
+}
+interface org.apache.hertzbeat.manager.dao.StatusPageIncidentDao    {
+}
+interface org.apache.hertzbeat.manager.dao.StatusPageOrgDao    {
+}
+interface org.apache.hertzbeat.manager.dao.TagDao    {
+  deleteTagsByIdIn(ids : Set<Long>) : void
+  findByIdIn(ids : Set<Long>) : List<Tag>
+  findTagByNameAndTagValue(name : String, value : String) : Optional<Tag>
+}
+class org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar  implements RuntimeHintsRegistrar  {
+  SshConstantsClassName : String
+  registerHints(hints : RuntimeHints, classLoader : ClassLoader) : void
+  registerConstructor(hints : RuntimeHints, clazz : Class<?>) : void
+}
+org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar::registerHints --> org.springframework.aot.hint.RuntimeHints::reflection : hints.reflection().registerTypes(Set.of(TypeReference.of(BouncyCastleSecurityProviderRegistrar.class),TypeReference.of(EdDSASecurityProviderRegistrar.class),TypeReference.of(Nio2ServiceFactory.class),TypeReference.of(Nio2ServiceFactoryFactory.class)),hint->hint.withMembers(MemberCategory.INVOKE_DECLARED_CONSTRUCTORS)) 
+org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar::registerHints --> org.springframework.aot.hint.RuntimeHints::reflection : hints.reflection() 
+org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar::registerHints --> org.springframework.aot.hint.RuntimeHints::reflection : hints.reflection().registerTypes(Set.of(TypeReference.of(PortForwardingEventListener.class)),hint->hint.withMembers(MemberCategory.INVOKE_DECLARED_CONSTRUCTORS,MemberCategory.INVOKE_DECLARED_METHODS,MemberCategory.DECLARED_FIELDS)) 
+org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar::registerHints --> org.springframework.aot.hint.RuntimeHints::reflection : hints.reflection() 
+org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar::registerHints --> org.springframework.aot.hint.RuntimeHints::proxies : hints.proxies().registerJdkProxy(TypeReference.of(ChannelListener.class),TypeReference.of(PortForwardingEventListener.class),TypeReference.of(SessionListener.class)) 
+org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar::registerHints --> org.springframework.aot.hint.RuntimeHints::proxies : hints.proxies() 
+org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar::registerConstructor --> org.springframework.aot.hint.RuntimeHints::reflection : hints.reflection().registerConstructor(declaredConstructor,ExecutableMode.INVOKE) 
+org.apache.hertzbeat.manager.nativex.HertzbeatRuntimeHintsRegistrar::registerConstructor --> org.springframework.aot.hint.RuntimeHints::reflection : hints.reflection() 
+class org.apache.hertzbeat.manager.pojo.dto.AiControllerRequestParam    {
+  text : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.AiMessage    {
+  role : String
+  content : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.AliAiRequestParamDTO    {
+  model : String
+  input : Input
+  parameters : Parameters
+}
+class org.apache.hertzbeat.manager.pojo.dto.Input    {
+  messages : List<AiMessage>
+}
+class org.apache.hertzbeat.manager.pojo.dto.Parameters    {
+  maxTokens : Integer
+  temperature : float
+  enableSearch : boolean
+  resultFormat : String
+  incrementalOutput : boolean
+}
+class org.apache.hertzbeat.manager.pojo.dto.AliAiResponse    {
+  output : AliAiOutput
+  usage : Tokens
+}
+class org.apache.hertzbeat.manager.pojo.dto.AliAiOutput    {
+  choices : List<Choice>
+}
+class org.apache.hertzbeat.manager.pojo.dto.Choice    {
+  finishReason : String
+  message : AiMessage
+}
+class org.apache.hertzbeat.manager.pojo.dto.Tokens    {
+  outputTokens : Integer
+  inputTokens : Integer
+  totalTokens : Integer
+}
+class org.apache.hertzbeat.manager.pojo.dto.AppCount    {
+  category : String
+  app : String
+  status : byte
+  size : long
+  availableSize : long
+  unManageSize : long
+  unAvailableSize : long
+  AppCount(app : String, status : byte, size : Long) : None
+}
+class org.apache.hertzbeat.manager.pojo.dto.BulletinMetricsData    {
+  name : String
+  content : List<Data>
+}
+class org.apache.hertzbeat.manager.pojo.dto.Data    {
+  monitorName : String
+  monitorId : Long
+  host : String
+  metrics : List<Metric>
+}
+class org.apache.hertzbeat.manager.pojo.dto.Metric    {
+  name : String
+  fields : List<List<Field>>
+}
+class org.apache.hertzbeat.manager.pojo.dto.Field    {
+  key : String
+  unit : String
+  value : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.ComponentStatus    {
+  info : StatusPageComponent
+  history : List<StatusPageHistory>
+}
+class org.apache.hertzbeat.manager.pojo.dto.Dashboard    {
+  apps : List<AppCount>
+}
+class org.apache.hertzbeat.manager.pojo.dto.FileDTO    {
+  name : String
+  inputStream : InputStream
+}
+class org.apache.hertzbeat.manager.pojo.dto.Hierarchy    {
+  category : String
+  value : String
+  label : String
+  isLeaf : Boolean
+  hide : Boolean
+  type : Byte
+  unit : String
+  children : List<Hierarchy>
+}
+class org.apache.hertzbeat.manager.pojo.dto.LoginDto    {
+  type : Byte
+  identifier : String
+  credential : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.MonitorDefineDto    {
+  define : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.MonitorDto    {
+  monitor : Monitor
+  params : List<Param>
+  metrics : List<String>
+  collector : String
+  grafanaDashboard : GrafanaDashboard
+}
+class org.apache.hertzbeat.manager.pojo.dto.MuteConfig    {
+  mute : boolean
+}
+class org.apache.hertzbeat.manager.pojo.dto.ObjectStoreConfigChangeEvent extends ApplicationEvent   {
+  config : ObjectStoreDTO<?>
+  ObjectStoreConfigChangeEvent(config : ObjectStoreDTO<?>) : None
+}
+class org.apache.hertzbeat.manager.pojo.dto.ObjectStoreDTO    {
+  type : Type
+  config : T
+}
+class org.apache.hertzbeat.manager.pojo.dto.ObsConfig    {
+  accessKey : String
+  secretKey : String
+  bucketName : String
+  endpoint : String
+  savePath : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.OpenAiRequestParamDTO    {
+  model : String
+  messages : List<AiMessage>
+  temperature : float
+  maxTokens : Integer
+  stream : Boolean
+}
+class org.apache.hertzbeat.manager.pojo.dto.OpenAiResponse    {
+  id : String
+  created : Long
+  choices : List<Choice>
+  usage : Tokens
+}
+class org.apache.hertzbeat.manager.pojo.dto.Choice    {
+  index : int
+  delta : AiMessage
+}
+class org.apache.hertzbeat.manager.pojo.dto.Tokens    {
+  promptTokens : Integer
+  completionTokens : Integer
+  totalTokens : Integer
+  convertToResponse(aiRes : String) : ServerSentEvent<String>
+}
+class org.apache.hertzbeat.manager.pojo.dto.ParamDefineDto    {
+  app : String
+  param : List<ParamDefine>
+}
+class org.apache.hertzbeat.manager.pojo.dto.PluginParam    {
+  id : Long
+  pluginMetadataId : Long
+  field : String
+  paramValue : String
+  type : byte
+  gmtCreate : LocalDateTime
+  gmtUpdate : LocalDateTime
+}
+class org.apache.hertzbeat.manager.pojo.dto.PluginParametersVO    {
+  paramDefines : List<ParamDefine>
+  pluginParams : List<PluginParam>
+}
+class org.apache.hertzbeat.manager.pojo.dto.RefreshTokenResponse    {
+  token : String
+  refreshToken : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.SystemConfig    {
+  timeZoneId : String
+  locale : String
+  theme : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.SystemSecret    {
+  jwtSecret : String
+}
+class org.apache.hertzbeat.manager.pojo.dto.TemplateConfig    {
+  apps : Map<String,AppTemplate>
+}
+class org.apache.hertzbeat.manager.pojo.dto.AppTemplate    {
+  hide : boolean
+}
+class org.apache.hertzbeat.manager.pojo.dto.TokenDto    {
+  token : String
+}
+class org.apache.hertzbeat.manager.scheduler.AssignJobs    {
+  jobs : Set<Long>
+  addingJobs : Set<Long>
+  removingJobs : Set<Long>
+  pinnedJobs : Set<Long>
+  AssignJobs() : None
+  addAssignJob(jobId : Long) : void
+  addAddingJob(jobId : Long) : void
+  addRemovingJob(jobId : Long) : void
+  addPinnedJob(jobId : Long) : void
+  addAssignJobs(jobSet : Set<Long>) : void
+  addAddingJobs(jobSet : Set<Long>) : void
+  addRemovingJobs(jobSet : Set<Long>) : void
+  addPinnedJobs(jobSet : Set<Long>) : void
+  removeAssignJobs(jobIds : Set<Long>) : void
+  removeAddingJobs(jobIds : Set<Long>) : void
+  clearRemovingJobs() : void
+  containAndRemoveJob(jobId : Long) : boolean
+  removeAddingJob(jobId : Long) : void
+  removeRemovingJob(jobId : Long) : void
+  removePinnedJob(jobId : Long) : void
+  clear() : void
+}
+interface org.apache.hertzbeat.manager.scheduler.CollectJobScheduling    {
+  collectSyncJobData(job : Job) : List<CollectRep.MetricsData>
+  collectSyncJobData(job : Job, collector : String) : List<CollectRep.MetricsData>
+  addAsyncCollectJob(job : Job, collector : String) : long
+  updateAsyncCollectJob(modifyJob : Job) : long
+  updateAsyncCollectJob(modifyJob : Job, collector : String) : long
+  cancelAsyncCollectJob(jobId : Long) : void
+  collectSyncJobResponse(metricsDataList : List<CollectRep.MetricsData>) : void
+}
+class org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler  implements CollectorScheduling,CollectJobScheduling  {
+  jobContentCache : Map<Long,Job>
+  eventListeners : Map<Long,CollectResponseEventListener>
+  collectorDao : CollectorDao
+  collectorMonitorBindDao : CollectorMonitorBindDao
+  consistentHash : ConsistentHash
+  collectJobService : CollectJobService
+  appService : AppService
+  monitorDao : MonitorDao
+  paramDao : ParamDao
+  manageServer : ManageServer
+  collectorGoOnline(identity : String, collectorInfo : CollectorInfo) : void
+  collectorGoOffline(identity : String) : void
+  reBalanceCollectorAssignJobs() : void
+  offlineCollector(identity : String) : boolean
+  onlineCollector(identity : String) : boolean
+  collectSyncJobData(job : Job) : List<CollectRep.MetricsData>
+  response(responseMetrics : List<CollectRep.MetricsData>) : void
+  collectSyncJobData(job : Job, collector : String) : List<CollectRep.MetricsData>
+  response(responseMetrics : List<CollectRep.MetricsData>) : void
+  addAsyncCollectJob(job : Job, collector : String) : long
+  updateAsyncCollectJob(modifyJob : Job) : long
+  updateAsyncCollectJob(modifyJob : Job, collector : String) : long
+  cancelAsyncCollectJob(jobId : Long) : void
+  collectSyncJobResponse(metricsDataList : List<CollectRep.MetricsData>) : void
+  setManageServer(manageServer : ManageServer) : void
+}
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOnline --> org.apache.hertzbeat.manager.dao.CollectorDao::findCollectorByName : collectorDao.findCollectorByName(identity).orElse(null) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOnline --> org.apache.hertzbeat.manager.dao.CollectorDao::findCollectorByName : collectorDao.findCollectorByName(identity) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOnline --> org.apache.hertzbeat.manager.dao.CollectorDao::save : collectorDao.save(collector) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOnline --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::findCollectorMonitorBindsByCollector : collectorMonitorBindDao.findCollectorMonitorBindsByCollector(identity) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOnline --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(binds.stream().map(CollectorMonitorBind::getMonitorId).collect(Collectors.toSet())) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOnline --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(monitor.getApp()) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOnline --> org.apache.hertzbeat.manager.dao.ParamDao::findParamsByMonitorId : paramDao.findParamsByMonitorId(monitor.getId()) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOnline --> org.apache.hertzbeat.manager.dao.MonitorDao::save : monitorDao.save(monitor) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOffline --> org.apache.hertzbeat.manager.dao.CollectorDao::findCollectorByName : collectorDao.findCollectorByName(identity).orElse(null) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOffline --> org.apache.hertzbeat.manager.dao.CollectorDao::findCollectorByName : collectorDao.findCollectorByName(identity) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectorGoOffline --> org.apache.hertzbeat.manager.dao.CollectorDao::save : collectorDao.save(collector) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::reBalanceCollectorAssignJobs --> org.apache.hertzbeat.collector.dispatch.entrance.internal.CollectJobService::addAsyncCollectJob : collectJobService.addAsyncCollectJob(job) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::reBalanceCollectorAssignJobs --> org.apache.hertzbeat.collector.dispatch.entrance.internal.CollectJobService::cancelAsyncCollectJob : collectJobService.cancelAsyncCollectJob(jobId) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::onlineCollector --> org.apache.hertzbeat.manager.dao.CollectorDao::findCollectorByName : collectorDao.findCollectorByName(identity).orElse(null) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::onlineCollector --> org.apache.hertzbeat.manager.dao.CollectorDao::findCollectorByName : collectorDao.findCollectorByName(identity) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectSyncJobData --> org.apache.hertzbeat.collector.dispatch.entrance.internal.CollectJobService::collectSyncJobData : collectJobService.collectSyncJobData(job) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::collectSyncJobData --> org.apache.hertzbeat.collector.dispatch.entrance.internal.CollectJobService::collectSyncJobData : collectJobService.collectSyncJobData(job) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::addAsyncCollectJob --> org.apache.hertzbeat.collector.dispatch.entrance.internal.CollectJobService::addAsyncCollectJob : collectJobService.addAsyncCollectJob(job) 
+org.apache.hertzbeat.manager.scheduler.CollectorJobScheduler::cancelAsyncCollectJob --> org.apache.hertzbeat.collector.dispatch.entrance.internal.CollectJobService::cancelAsyncCollectJob : collectJobService.cancelAsyncCollectJob(jobId) 
+interface org.apache.hertzbeat.manager.scheduler.CollectorScheduling    {
+  collectorGoOnline(identity : String, collectorInfo : CollectorInfo) : void
+  collectorGoOffline(identity : String) : void
+  reBalanceCollectorAssignJobs() : void
+  offlineCollector(identity : String) : boolean
+  onlineCollector(identity : String) : boolean
+}
+class org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap extends TreeMap<K,V>   {
+  readWriteLock : ReentrantReadWriteLock
+  ConcurrentTreeMap() : None
+  put(key : K, value : V) : V
+  remove(key : Object) : V
+  firstEntry() : Map.Entry<K,V>
+  higherEntry(key : K) : Map.Entry<K,V>
+  higherOrFirstEntry(key : K) : Map.Entry<K,V>
+  ceilingEntry(key : K) : Map.Entry<K,V>
+  ceilingOrFirstEntry(key : K) : Map.Entry<K,V>
+}
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::put --> java.util.concurrent.locks.ReentrantReadWriteLock::writeLock : readWriteLock.writeLock().lock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::put --> java.util.concurrent.locks.ReentrantReadWriteLock::writeLock : readWriteLock.writeLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::put --> java.util.concurrent.locks.ReentrantReadWriteLock::writeLock : readWriteLock.writeLock().unlock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::put --> java.util.concurrent.locks.ReentrantReadWriteLock::writeLock : readWriteLock.writeLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::remove --> java.util.concurrent.locks.ReentrantReadWriteLock::writeLock : readWriteLock.writeLock().lock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::remove --> java.util.concurrent.locks.ReentrantReadWriteLock::writeLock : readWriteLock.writeLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::remove --> java.util.concurrent.locks.ReentrantReadWriteLock::writeLock : readWriteLock.writeLock().unlock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::remove --> java.util.concurrent.locks.ReentrantReadWriteLock::writeLock : readWriteLock.writeLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::firstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().lock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::firstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::firstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().unlock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::firstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::higherEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().lock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::higherEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::higherEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().unlock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::higherEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::higherOrFirstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().lock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::higherOrFirstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::higherOrFirstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().unlock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::higherOrFirstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::ceilingEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().lock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::ceilingEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::ceilingEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().unlock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::ceilingEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::ceilingOrFirstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().lock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::ceilingOrFirstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::ceilingOrFirstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock().unlock() 
+org.apache.hertzbeat.manager.scheduler.ConcurrentTreeMap::ceilingOrFirstEntry --> java.util.concurrent.locks.ReentrantReadWriteLock::readLock : readWriteLock.readLock() 
+class org.apache.hertzbeat.manager.scheduler.ConsistentHash    {
+  hashCircle : ConcurrentTreeMap<Integer,Node>
+  existNodeMap : Map<String,Node>
+  dispatchJobCache : List<DispatchJob>
+  VIRTUAL_NODE_DEFAULT_SIZE : byte
+  ConsistentHash() : None
+  addVirtualNode(newNode : Node, identity : String) : void
+  addNode(newNode : Node) : void
+  removeVirtualNode(deletedNode : Node, virtualNodeHash : Integer) : void
+  removeNode(name : String) : Node
+  dispatchJobInCache() : void
+  getAllNodes() : Map<String,Node>
+  getNode(collectorName : String) : Node
+  getDispatchJobCache() : List<DispatchJob>
+  dispatchJob(dispatchKey : String, jobId : Long) : Node
+  preDispatchJob(dispatchKey : String) : Node
+  dispatchJob(dispatchHash : Integer, jobId : Long, isFlushed : boolean) : Node
+  preDispatchJob(dispatchHash : Integer) : Node
+  hash(key : long) : int
+  hash(key : String) : int
+}
+class org.apache.hertzbeat.manager.scheduler.DispatchJob    {
+  dispatchHash : Integer
+  jobId : Long
+}
+class org.apache.hertzbeat.manager.scheduler.Node    {
+  identity : String
+  mode : String
+  ip : String
+  uptime : long
+  quality : Byte
+  assignJobs : AssignJobs
+  virtualNodeMap : Map<Integer,Set<Long[]>>
+  Node(identity : String, mode : String, ip : String, uptime : long, quality : Byte) : None
+  addJob(virtualNodeKey : Integer, dispatchHash : Integer, jobId : Long, isFlushed : boolean) : void
+  clearVirtualNodeJobs(virtualNodeKey : Integer) : Set<Long[]>
+  addVirtualNodeJobs(virtualHashKey : Integer, reDispatchJobs : Set<Long[]>) : void
+  removeVirtualNodeJob(jobId : Long) : void
+  getAssignJobs() : AssignJobs
+  destroy() : void
+}
+class org.apache.hertzbeat.manager.scheduler.ManagerWorkerPool    {
+  workerExecutor : ThreadPoolExecutor
+  ManagerWorkerPool() : None
+  initWorkExecutor() : void
+  executeJob(runnable : Runnable) : void
+}
+org.apache.hertzbeat.manager.scheduler.ManagerWorkerPool::executeJob --> java.util.concurrent.ThreadPoolExecutor::execute : workerExecutor.execute(runnable) 
+class org.apache.hertzbeat.manager.scheduler.SchedulerInit  implements CommandLineRunner  {
+  collectorScheduling : CollectorScheduling
+  collectJobScheduling : CollectJobScheduling
+  MAIN_COLLECTOR_NODE_IP : String
+  DEFAULT_COLLECTOR_VERSION : String
+  appService : AppService
+  monitorDao : MonitorDao
+  paramDao : ParamDao
+  collectorDao : CollectorDao
+  collectorMonitorBindDao : CollectorMonitorBindDao
+  monitorBindDao : MonitorBindDao
+  run() : void
+}
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.CollectorDao::findAll : collectorDao.findAll().stream().peek(item->item.setStatus(CommonConstants.COLLECTOR_STATUS_OFFLINE)).collect(Collectors.toList()) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.CollectorDao::findAll : collectorDao.findAll().stream().peek(item->item.setStatus(CommonConstants.COLLECTOR_STATUS_OFFLINE)) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.CollectorDao::findAll : collectorDao.findAll().stream() 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.CollectorDao::findAll : collectorDao.findAll() 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.CollectorDao::saveAll : collectorDao.saveAll(collectors) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByStatusNotInAndJobIdNotNull : monitorDao.findMonitorsByStatusNotInAndJobIdNotNull(List.of(CommonConstants.MONITOR_PAUSED_CODE)) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::findAll : collectorMonitorBindDao.findAll() 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByType : monitorBindDao.findAllByType(CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR).stream().map(MonitorBind::getBizId).collect(Collectors.toSet()) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByType : monitorBindDao.findAllByType(CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR).stream().map(MonitorBind::getBizId) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByType : monitorBindDao.findAllByType(CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR).stream() 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByType : monitorBindDao.findAllByType(CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(monitor.getApp()) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.ParamDao::findParamsByMonitorId : paramDao.findParamsByMonitorId(monitor.getId()) 
+org.apache.hertzbeat.manager.scheduler.SchedulerInit::run --> org.apache.hertzbeat.manager.dao.MonitorDao::save : monitorDao.save(monitor) 
+class org.apache.hertzbeat.manager.scheduler.SchedulerProperties    {
+  server : ServerProperties
+}
+class org.apache.hertzbeat.manager.scheduler.ServerProperties    {
+  enabled : boolean
+  port : int
+  idleStateEventTriggerTime : int
+}
+class org.apache.hertzbeat.manager.scheduler.netty.ManageServer  implements CommandLineRunner  {
+  collectorJobScheduler : CollectorJobScheduler
+  channelSchedule : ScheduledExecutorService
+  remotingServer : RemotingServer
+  clientChannelTable : Map<String,Channel>
+  ManageServer(schedulerProperties : SchedulerProperties, collectorJobScheduler : CollectorJobScheduler, threadPool : CommonThreadPool) : None
+  init(schedulerProperties : SchedulerProperties, threadPool : CommonThreadPool) : void
+  start() : void
+  shutdown() : void
+  getCollectorAndJobScheduler() : CollectorJobScheduler
+  getChannel(identity : String) : Channel
+  addChannel(identity : String, channel : Channel) : void
+  closeChannel(identity : String) : void
+  isChannelActive(identity : String) : boolean
+  sendMsg(identityId : String, message : ClusterMsg.Message) : boolean
+  sendMsgSync(identityId : String, message : ClusterMsg.Message) : ClusterMsg.Message
+  run() : void
+}
+class org.apache.hertzbeat.manager.scheduler.netty.ManageNettyEventListener  implements NettyEventListener  {
+  onChannelIdle(channel : Channel) : void
+}
+class org.apache.hertzbeat.manager.scheduler.netty.process.CollectCyclicDataResponseProcessor  implements NettyRemotingProcessor  {
+  handle(ctx : ChannelHandlerContext, message : ClusterMsg.Message) : ClusterMsg.Message
+}
+class org.apache.hertzbeat.manager.scheduler.netty.process.CollectCyclicServiceDiscoveryDataResponseProcessor  implements NettyRemotingProcessor  {
+  handle(ctx : ChannelHandlerContext, message : ClusterMsg.Message) : ClusterMsg.Message
+}
+class org.apache.hertzbeat.manager.scheduler.netty.process.CollectOneTimeDataResponseProcessor  implements NettyRemotingProcessor  {
+  manageServer : ManageServer
+  CollectOneTimeDataResponseProcessor(manageServer : ManageServer) : None
+  handle(ctx : ChannelHandlerContext, message : ClusterMsg.Message) : ClusterMsg.Message
+}
+class org.apache.hertzbeat.manager.scheduler.netty.process.CollectorOfflineProcessor  implements NettyRemotingProcessor  {
+  manageServer : ManageServer
+  CollectorOfflineProcessor(manageServer : ManageServer) : None
+  handle(ctx : ChannelHandlerContext, message : ClusterMsg.Message) : ClusterMsg.Message
+}
+class org.apache.hertzbeat.manager.scheduler.netty.process.CollectorOnlineProcessor  implements NettyRemotingProcessor  {
+  manageServer : ManageServer
+  CollectorOnlineProcessor(manageServer : ManageServer) : None
+  handle(ctx : ChannelHandlerContext, message : ClusterMsg.Message) : ClusterMsg.Message
+}
+org.apache.hertzbeat.manager.scheduler.netty.process.CollectorOnlineProcessor::handle --> io.netty.channel.ChannelHandlerContext::channel : ctx.channel().remoteAddress() 
+org.apache.hertzbeat.manager.scheduler.netty.process.CollectorOnlineProcessor::handle --> io.netty.channel.ChannelHandlerContext::channel : ctx.channel() 
+org.apache.hertzbeat.manager.scheduler.netty.process.CollectorOnlineProcessor::handle --> io.netty.channel.ChannelHandlerContext::channel : ctx.channel() 
+class org.apache.hertzbeat.manager.scheduler.netty.process.HeartbeatProcessor  implements NettyRemotingProcessor  {
+  manageServer : ManageServer
+  HeartbeatProcessor(manageServer : ManageServer) : None
+  handle(ctx : ChannelHandlerContext, message : ClusterMsg.Message) : ClusterMsg.Message
+}
+org.apache.hertzbeat.manager.scheduler.netty.process.HeartbeatProcessor::handle --> io.netty.channel.ChannelHandlerContext::channel : ctx.channel() 
+interface org.apache.hertzbeat.manager.service.AccountService    {
+  authGetToken(loginDto : LoginDto) : Map<String,String>
+  refreshToken(refreshToken : String) : RefreshTokenResponse
+  generateToken() : String
+}
+interface org.apache.hertzbeat.manager.service.AppService    {
+  getAppParamDefines(app : String) : List<ParamDefine>
+  getPushDefine(monitorId : Long) : Job
+  getAutoGenerateDynamicDefine(monitorId : Long) : Job
+  getAppDefine(app : String) : Job
+  getAppDefineOption(app : String) : Optional<Job>
+  getAppDefineMetricNames(app : String) : List<String>
+  getI18nResources(lang : String) : Map<String,String>
+  getI18nApps(lang : String) : Map<String,String>
+  getAllAppHierarchy(lang : String) : List<Hierarchy>
+  getAppHierarchy(app : String, lang : String) : List<Hierarchy>
+  getAllAppDefines() : Map<String,Job>
+  getMonitorDefineFileContent(app : String) : String
+  applyMonitorDefineYml(ymlContent : String, isModify : boolean) : void
+  deleteMonitorDefine(app : String) : void
+  updateCustomTemplateConfig(config : TemplateConfig) : void
+}
+interface org.apache.hertzbeat.manager.service.BulletinService    {
+  validate(bulletin : Bulletin) : void
+  getBulletinById(id : Long) : Optional<Bulletin>
+  editBulletin(bulletin : Bulletin) : void
+  addBulletin(bulletin : Bulletin) : void
+  buildBulletinMetricsData(id : Long) : BulletinMetricsData
+  getBulletins(search : String, pageIndex : Integer, pageSize : Integer) : Page<Bulletin>
+  deleteBulletins(ids : List<Long>) : void
+}
+interface org.apache.hertzbeat.manager.service.CollectorService    {
+  getCollectors(name : String, pageIndex : int, pageSize : Integer) : Page<CollectorSummary>
+  deleteRegisteredCollector(collectors : List<String>) : void
+  hasCollector(collector : String) : boolean
+  generateCollectorDeployInfo(collector : String) : Map<String,String>
+  makeCollectorsOffline(collectors : List<String>) : void
+  makeCollectorsOnline(collectors : List<String>) : void
+}
+interface org.apache.hertzbeat.manager.service.ConfigService    {
+  saveConfig(type : String, config : Object) : void
+  getConfig(type : String) : Object
+  updateTemplateAppConfig(app : String, template : TemplateConfig.AppTemplate) : void
+}
+interface org.apache.hertzbeat.manager.service.ImExportService    {
+  importConfig(taskName : String, is : InputStream) : void
+  exportConfig(os : OutputStream, configList : List<Long>) : void
+  type() : String
+  getFileName() : String
+}
+interface org.apache.hertzbeat.manager.service.MonitorService    {
+  detectMonitor(monitor : Monitor, params : List<Param>, collector : String) : void
+  addMonitor(monitor : Monitor, params : List<Param>, collector : String, dashboard : GrafanaDashboard) : void
+  validate(monitorDto : MonitorDto, isModify : Boolean) : void
+  modifyMonitor(monitor : Monitor, params : List<Param>, collector : String, dashboard : GrafanaDashboard) : void
+  deleteMonitor(id : long) : void
+  deleteMonitors(ids : Set<Long>) : void
+  getMonitorDto(id : long) : MonitorDto
+  getMonitors(monitorIds : List<Long>, app : String, search : String, status : Byte, sort : String, order : String, pageIndex : int, pageSize : int, labels : String) : Page<Monitor>
+  cancelManageMonitors(ids : HashSet<Long>) : void
+  enableManageMonitors(ids : HashSet<Long>) : void
+  getAllAppMonitorsCount() : List<AppCount>
+  getMonitor(monitorId : Long) : Monitor
+  updateMonitorStatus(monitorId : Long, status : byte) : void
+  getAppMonitors(app : String) : List<Monitor>
+  export(ids : List<Long>, type : String, res : HttpServletResponse) : void
+  importConfig(file : MultipartFile) : void
+  copyMonitors(ids : List<Long>) : void
+  updateAppCollectJob(job : Job) : void
+  addAndSaveMonitorJob(monitor : Monitor, params : List<Param>, collector : String, sdMonitorParam : SdMonitorParam, grafanaDashboard : GrafanaDashboard) : void
+  copyMonitor(id : Long) : void
+}
+interface org.apache.hertzbeat.manager.service.ObjectStoreService    {
+  upload(filePath : String, is : InputStream) : boolean
+  remove(filePath : String) : void
+  isExist(filePath : String) : boolean
+  download(filePath : String) : FileDTO
+  list(dir : String) : List<FileDTO>
+  type() : ObjectStoreDTO.Type
+}
+interface org.apache.hertzbeat.manager.service.PluginService    {
+  savePlugin(pluginUpload : PluginUpload) : void
+  pluginIsEnable(clazz : Class<?>) : boolean
+  getPlugins(search : String, pageIndex : int, pageSize : int) : Page<PluginMetadata>
+  pluginExecute(clazz : Class<T>, execute : Consumer<T>) : void
+  pluginExecute(clazz : Class<T>, execute : BiConsumer<T,PluginContext>) : void
+  deletePlugins(ids : Set<Long>) : void
+  updateStatus(plugin : PluginMetadata) : void
+  getParamDefine(pluginMetadataId : Long) : PluginParametersVO
+  savePluginParam(params : List<PluginParam>) : void
+}
+interface org.apache.hertzbeat.manager.service.StatusPageService    {
+  queryStatusPageOrg() : StatusPageOrg
+  saveStatusPageOrg(statusPageOrg : StatusPageOrg) : StatusPageOrg
+  queryStatusPageComponents() : List<StatusPageComponent>
+  newStatusPageComponent(statusPageComponent : StatusPageComponent) : void
+  updateStatusPageComponent(statusPageComponent : StatusPageComponent) : void
+  deleteStatusPageComponent(id : long) : void
+  queryStatusPageComponent(id : long) : StatusPageComponent
+  queryComponentsStatus() : List<ComponentStatus>
+  queryComponentStatus(id : long) : ComponentStatus
+  queryStatusPageIncidents() : List<StatusPageIncident>
+  queryStatusPageIncident(id : long) : StatusPageIncident
+  newStatusPageIncident(statusPageIncident : StatusPageIncident) : void
+  updateStatusPageIncident(statusPageIncident : StatusPageIncident) : void
+  deleteStatusPageIncident(id : long) : void
+}
+interface org.apache.hertzbeat.manager.service.TagService    {
+  addTags(tags : List<Tag>) : void
+  modifyTag(tag : Tag) : void
+  getTags(search : String, type : Byte, pageIndex : int, pageSize : int) : Page<Tag>
+  deleteTags(ids : HashSet<Long>) : void
+}
+interface org.apache.hertzbeat.manager.service.ai.AiService    {
+  getType() : AiTypeEnum
+  requestAi(text : String) : Flux<ServerSentEvent<String>>
+}
+class org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl  implements AiService  {
+  aiProperties : AiProperties
+  webClient : WebClient
+  init() : void
+  getType() : AiTypeEnum
+  requestAi(text : String) : Flux<ServerSentEvent<String>>
+  checkParam(param : String, apiKey : String, model : String) : void
+}
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::init --> org.apache.hertzbeat.manager.config.AiProperties::getApiKey : aiProperties.getApiKey() 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getModel : aiProperties.getModel() 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getApiKey : aiProperties.getApiKey() 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getModel : aiProperties.getModel() 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(aliAiRequestParamDTO)).retrieve().bodyToFlux(AliAiResponse.class).map(aliAiResponse->{if(Objects.nonNull(aliAiResponse)){List<AliAiResponse.Choice>choices=aliAiResponse.getOutput().getChoices();if(CollectionUtils.isEmpty(choices)){returnServerSentEvent.<String>builder().build();}Stringcontent=choices.get(0).getMessage().getContent();returnServerSentEvent.<String>builder().data(content).build();}returnServerSentEvent.<String>builder().build();}).doOnError(error->log.info("AlibabaAiServiceImpl.requestAi exception:{}",error.getMessage())) 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(aliAiRequestParamDTO)).retrieve().bodyToFlux(AliAiResponse.class).map(aliAiResponse->{if(Objects.nonNull(aliAiResponse)){List<AliAiResponse.Choice>choices=aliAiResponse.getOutput().getChoices();if(CollectionUtils.isEmpty(choices)){returnServerSentEvent.<String>builder().build();}Stringcontent=choices.get(0).getMessage().getContent();returnServerSentEvent.<String>builder().data(content).build();}returnServerSentEvent.<String>builder().build();}) 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(aliAiRequestParamDTO)).retrieve().bodyToFlux(AliAiResponse.class) 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(aliAiRequestParamDTO)).retrieve() 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(aliAiRequestParamDTO)) 
+org.apache.hertzbeat.manager.service.ai.AlibabaAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post() 
+class org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl  implements AiService  {
+  aiProperties : AiProperties
+  webClient : WebClient
+  init() : void
+  getType() : AiTypeEnum
+  requestAi(text : String) : Flux<ServerSentEvent<String>>
+  checkParam(param : String, model : String, apiKey : String) : void
+}
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::init --> org.apache.hertzbeat.manager.config.AiProperties::getApiKey : aiProperties.getApiKey() 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getModel : aiProperties.getModel() 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getApiKey : aiProperties.getApiKey() 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getModel : aiProperties.getModel() 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)).map(OpenAiResponse::convertToResponse).doOnError(error->log.info("KimiAiServiceImpl.requestAi exception:{}",error.getMessage())) 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)).map(OpenAiResponse::convertToResponse) 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)) 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class) 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve() 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)) 
+org.apache.hertzbeat.manager.service.ai.KimiAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post() 
+class org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl  implements AiService  {
+  aiProperties : AiProperties
+  webClient : WebClient
+  init() : void
+  getType() : AiTypeEnum
+  requestAi(text : String) : Flux<ServerSentEvent<String>>
+  checkParam(param : String, apiKey : String, model : String) : void
+}
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::init --> org.apache.hertzbeat.manager.config.AiProperties::getApiKey : aiProperties.getApiKey() 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::init --> org.apache.hertzbeat.manager.config.AiProperties::getApiSecret : aiProperties.getApiSecret() 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getApiKey : aiProperties.getApiKey() 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getModel : aiProperties.getModel() 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getModel : aiProperties.getModel() 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)).map(OpenAiResponse::convertToResponse).doOnError(error->log.info("SparkDeskAiServiceImpl.requestAi exception:{}",error.getMessage())) 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)).map(OpenAiResponse::convertToResponse) 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)) 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class) 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve() 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)) 
+org.apache.hertzbeat.manager.service.ai.SparkDeskAiServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post() 
+class org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl  implements AiService  {
+  aiProperties : AiProperties
+  webClient : WebClient
+  init() : void
+  getType() : AiTypeEnum
+  requestAi(text : String) : Flux<ServerSentEvent<String>>
+  checkParam(param : String, model : String, apiKey : String) : void
+}
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::init --> org.apache.hertzbeat.manager.config.AiProperties::getApiKey : aiProperties.getApiKey() 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getModel : aiProperties.getModel() 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getApiKey : aiProperties.getApiKey() 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.apache.hertzbeat.manager.config.AiProperties::getModel : aiProperties.getModel() 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)).map(OpenAiResponse::convertToResponse).doOnError(error->log.info("ZhiPuServiceImpl.requestAi exception:{}",error.getMessage())) 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)).map(OpenAiResponse::convertToResponse) 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class).filter(aiResponse->!"[DONE]".equals(aiResponse)) 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve().bodyToFlux(String.class) 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)).retrieve() 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post().body(BodyInserters.fromValue(zhiPuRequestParamDTO)) 
+org.apache.hertzbeat.manager.service.ai.ZhiPuServiceImpl::requestAi --> org.springframework.web.reactive.function.client.WebClient::post : webClient.post() 
+class org.apache.hertzbeat.manager.service.ai.factory.AiServiceFactoryImpl    {
+  aiService : List<AiService>
+  aiServiceFactoryMap : Map<AiTypeEnum,AiService>
+  init() : void
+  getAiServiceImplBean(type : String) : AiService
+}
+class org.apache.hertzbeat.manager.service.impl.AbstractGeneralConfigServiceImpl  implements GeneralConfigService<T>  {
+  generalConfigDao : GeneralConfigDao
+  objectMapper : ObjectMapper
+  AbstractGeneralConfigServiceImpl(generalConfigDao : GeneralConfigDao, objectMapper : ObjectMapper) : None
+  saveConfig(config : T) : void
+  getConfig() : T
+  getTypeReference() : TypeReference<T>
+}
+org.apache.hertzbeat.manager.service.impl.AbstractGeneralConfigServiceImpl::saveConfig --> com.fasterxml.jackson.databind.ObjectMapper::writeValueAsString : objectMapper.writeValueAsString(config) 
+org.apache.hertzbeat.manager.service.impl.AbstractGeneralConfigServiceImpl::saveConfig --> org.apache.hertzbeat.base.dao.GeneralConfigDao::save : generalConfigDao.save(generalConfig2Save) 
+org.apache.hertzbeat.manager.service.impl.AbstractGeneralConfigServiceImpl::getConfig --> org.apache.hertzbeat.base.dao.GeneralConfigDao::findByType : generalConfigDao.findByType(type()) 
+org.apache.hertzbeat.manager.service.impl.AbstractGeneralConfigServiceImpl::getConfig --> com.fasterxml.jackson.databind.ObjectMapper::readValue : objectMapper.readValue(generalConfig.getContent(),getTypeReference()) 
+class org.apache.hertzbeat.manager.service.impl.AbstractImExportServiceImpl  implements ImExportService  {
+  monitorService : MonitorService
+  tagService : TagService
+  managerSseManager : ManagerSseManager
+  importConfig(taskName : String, is : InputStream) : void
+  exportConfig(os : OutputStream, configList : List<Long>) : void
+  parseImport(is : InputStream) : List<ExportMonitorDTO>
+  writeOs(monitorList : List<ExportMonitorDTO>, os : OutputStream) : void
+  convert(dto : MonitorDto) : ExportMonitorDTO
+  convert(exportMonitor : ExportMonitorDTO) : MonitorDto
+  fileNamePrefix() : String
+}
+org.apache.hertzbeat.manager.service.impl.AbstractImExportServiceImpl::importConfig --> org.apache.hertzbeat.manager.service.MonitorService::validate : monitorService.validate(monitorDto,false) 
+org.apache.hertzbeat.manager.service.impl.AbstractImExportServiceImpl::importConfig --> org.apache.hertzbeat.manager.service.MonitorService::addMonitor : monitorService.addMonitor(monitorDto.getMonitor(),monitorDto.getParams(),monitorDto.getCollector(),monitorDto.getGrafanaDashboard()) 
+org.apache.hertzbeat.manager.service.impl.AbstractImExportServiceImpl::importConfig --> org.apache.hertzbeat.manager.config.ManagerSseManager::broadcastImportTaskInProgress : managerSseManager.broadcastImportTaskInProgress(taskName,(int)((i+1)*100.0/totalElements)) 
+org.apache.hertzbeat.manager.service.impl.AbstractImExportServiceImpl::importConfig --> org.apache.hertzbeat.manager.config.ManagerSseManager::broadcastImportTaskSuccess : managerSseManager.broadcastImportTaskSuccess(taskName) 
+org.apache.hertzbeat.manager.service.impl.AbstractImExportServiceImpl::exportConfig --> org.apache.hertzbeat.manager.service.MonitorService::getMonitorDto : monitorService.getMonitorDto(it) 
+class org.apache.hertzbeat.manager.service.impl.ExportMonitorDTO    {
+  monitor : MonitorDTO
+  params : List<ParamDTO>
+}
+class org.apache.hertzbeat.manager.service.impl.MonitorDTO    {
+  name : String
+  app : String
+  host : String
+  intervals : Integer
+  status : Byte
+  description : String
+  labels : Map<String,String>
+  collector : String
+}
+class org.apache.hertzbeat.manager.service.impl.ParamDTO    {
+  field : String
+  type : Byte
+  value : String
+}
+class org.apache.hertzbeat.manager.service.impl.AccountServiceImpl  implements AccountService  {
+  PERIOD_TIME : long
+  accountProvider : SurenessAccountProvider
+  authGetToken(loginDto : LoginDto) : Map<String,String>
+  refreshToken(refreshToken : String) : RefreshTokenResponse
+  generateToken() : String
+  issueToken(userId : String, roles : List<String>, expirationMillis : Long) : String
+}
+org.apache.hertzbeat.manager.service.impl.AccountServiceImpl::authGetToken --> com.usthe.sureness.provider.SurenessAccountProvider::loadAccount : accountProvider.loadAccount(loginDto.getIdentifier()) 
+org.apache.hertzbeat.manager.service.impl.AccountServiceImpl::refreshToken --> com.usthe.sureness.provider.SurenessAccountProvider::loadAccount : accountProvider.loadAccount(userId) 
+org.apache.hertzbeat.manager.service.impl.AccountServiceImpl::generateToken --> com.usthe.sureness.provider.SurenessAccountProvider::loadAccount : accountProvider.loadAccount(userId) 
+class org.apache.hertzbeat.manager.service.impl.AppServiceImpl  implements AppService,InitializingBean  {
+  PUSH_PROTOCOL_METRICS_NAME : String
+  monitorDao : MonitorDao
+  objectStoreConfigService : ObjectStoreConfigServiceImpl
+  paramDao : ParamDao
+  defineDao : DefineDao
+  warehouseService : WarehouseService
+  appDefines : Map<String,Job>
+  appDefineStore : AppDefineStore
+  jarAppDefineStore : AppDefineStore
+  getAppParamDefines(app : String) : List<ParamDefine>
+  getPushDefine(monitorId : Long) : Job
+  getAutoGenerateDynamicDefine(monitorId : Long) : Job
+  getAppDefine(app : String) : Job
+  getAppDefineOption(app : String) : Optional<Job>
+  getAppDefineMetricNames(app : String) : List<String>
+  getI18nResources(lang : String) : Map<String,String>
+  getI18nApps(lang : String) : Map<String,String>
+  getAllAppHierarchy(lang : String) : List<Hierarchy>
+  getAppHierarchy(app : String, lang : String) : List<Hierarchy>
+  queryAppHierarchy(lang : String, hierarchies : LinkedList<Hierarchy>, job : Job) : void
+  combineHierarchyMetrics(hierarchyMetricList : List<Hierarchy>, hierarchyMetric : Hierarchy) : void
+  getAllAppDefines() : Map<String,Job>
+  getMonitorDefineFileContent(app : String) : String
+  applyMonitorDefineYml(ymlContent : String, isModify : boolean) : void
+  verifyDefineAppContent(app : Job, isModify : boolean) : void
+  deleteMonitorDefine(app : String) : void
+  updateCustomTemplateConfig(config : TemplateConfig) : void
+  afterPropertiesSet() : void
+  onObjectStoreConfigChange(event : ObjectStoreConfigChangeEvent) : void
+  refreshStore(objectStoreConfig : ObjectStoreDTO<?>) : void
+}
+org.apache.hertzbeat.manager.service.impl.AppServiceImpl::getPushDefine --> org.apache.hertzbeat.manager.dao.ParamDao::findParamsByMonitorId : paramDao.findParamsByMonitorId(monitorId) 
+org.apache.hertzbeat.manager.service.impl.AppServiceImpl::getAutoGenerateDynamicDefine --> org.apache.hertzbeat.warehouse.service.WarehouseService::queryMonitorMetricsData : warehouseService.queryMonitorMetricsData(monitorId) 
+org.apache.hertzbeat.manager.service.impl.AppServiceImpl::queryAppHierarchy --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByAppEquals : monitorDao.findMonitorsByAppEquals(job.getApp()) 
+org.apache.hertzbeat.manager.service.impl.AppServiceImpl::queryAppHierarchy --> org.apache.hertzbeat.warehouse.service.WarehouseService::queryMonitorMetricsData : warehouseService.queryMonitorMetricsData(monitor.getId()) 
+org.apache.hertzbeat.manager.service.impl.AppServiceImpl::deleteMonitorDefine --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByAppEquals : monitorDao.findMonitorsByAppEquals(app) 
+interface org.apache.hertzbeat.manager.service.impl.AppDefineStore    {
+  loadAppDefines() : boolean
+  loadAppDefine(app : String) : String
+  save(app : String, ymlContent : String) : void
+  delete(app : String) : void
+}
+class org.apache.hertzbeat.manager.service.impl.JarAppDefineStoreImpl  implements AppDefineStore  {
+  loadAppDefines() : boolean
+  loadAppDefine(app : String) : String
+  save(app : String, ymlContent : String) : void
+  delete(app : String) : void
+}
+class org.apache.hertzbeat.manager.service.impl.LocalFileAppDefineStoreImpl  implements AppDefineStore  {
+  loadAppDefines() : boolean
+  loadAppDefine(app : String) : String
+  save(app : String, ymlContent : String) : void
+  delete(app : String) : void
+}
+class org.apache.hertzbeat.manager.service.impl.ObjectStoreAppDefineStoreImpl  implements AppDefineStore  {
+  loadAppDefines() : boolean
+  loadAppDefine(app : String) : String
+  save(app : String, ymlContent : String) : void
+  delete(app : String) : void
+  getObjectStoreService() : ObjectStoreService
+  getDefineAppPath(app : String) : String
+}
+class org.apache.hertzbeat.manager.service.impl.DatabaseAppDefineStoreImpl  implements AppDefineStore  {
+  loadAppDefines() : boolean
+  loadAppDefine(app : String) : String
+  save(app : String, ymlContent : String) : void
+  delete(app : String) : void
+}
+class org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl  implements BulletinService  {
+  NO_DATA : String
+  EMPTY_STRING : String
+  bulletinDao : BulletinDao
+  monitorService : MonitorService
+  realTimeDataReader : RealTimeDataReader
+  validate(bulletin : Bulletin) : void
+  editBulletin(bulletin : Bulletin) : void
+  addBulletin(bulletin : Bulletin) : void
+  buildBulletinMetricsData(id : Long) : BulletinMetricsData
+  getBulletins(search : String, pageIndex : Integer, pageSize : Integer) : Page<Bulletin>
+  deleteBulletins(ids : List<Long>) : void
+  getBulletinById(id : Long) : Optional<Bulletin>
+}
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::validate --> org.apache.hertzbeat.manager.dao.BulletinDao::countByName : bulletinDao.countByName(bulletin.getName()) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::editBulletin --> org.apache.hertzbeat.manager.dao.BulletinDao::findById : bulletinDao.findById(bulletin.getId()) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::editBulletin --> org.apache.hertzbeat.manager.dao.BulletinDao::save : bulletinDao.save(bulletin) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::addBulletin --> org.apache.hertzbeat.manager.dao.BulletinDao::save : bulletinDao.save(bulletin) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::buildBulletinMetricsData --> org.apache.hertzbeat.manager.dao.BulletinDao::findById : bulletinDao.findById(id) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::buildBulletinMetricsData --> org.apache.hertzbeat.manager.service.MonitorService::getMonitor : monitorService.getMonitor(monitorId) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::buildBulletinMetricsData --> org.apache.hertzbeat.warehouse.store.realtime.RealTimeDataReader::getCurrentMetricsData : realTimeDataReader.getCurrentMetricsData(monitorId,metric) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::getBulletins --> org.apache.hertzbeat.manager.dao.BulletinDao::findAll : bulletinDao.findAll(specification,pageRequest) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::deleteBulletins --> org.apache.hertzbeat.manager.dao.BulletinDao::deleteAllById : bulletinDao.deleteAllById(ids) 
+org.apache.hertzbeat.manager.service.impl.BulletinServiceImpl::getBulletinById --> org.apache.hertzbeat.manager.dao.BulletinDao::findById : bulletinDao.findById(id) 
+class org.apache.hertzbeat.manager.service.impl.CollectorServiceImpl  implements CollectorService  {
+  collectorDao : CollectorDao
+  collectorMonitorBindDao : CollectorMonitorBindDao
+  consistentHash : ConsistentHash
+  manageServer : ManageServer
+  getCollectors(name : String, pageIndex : int, pageSize : Integer) : Page<CollectorSummary>
+  deleteRegisteredCollector(collectors : List<String>) : void
+  hasCollector(collector : String) : boolean
+  generateCollectorDeployInfo(collector : String) : Map<String,String>
+  makeCollectorsOffline(collectors : List<String>) : void
+  makeCollectorsOnline(collectors : List<String>) : void
+}
+org.apache.hertzbeat.manager.service.impl.CollectorServiceImpl::getCollectors --> org.apache.hertzbeat.manager.dao.CollectorDao::findAll : collectorDao.findAll(specification,pageRequest) 
+org.apache.hertzbeat.manager.service.impl.CollectorServiceImpl::getCollectors --> org.apache.hertzbeat.manager.scheduler.ConsistentHash::getNode : consistentHash.getNode(collector.getName()) 
+class org.apache.hertzbeat.manager.service.impl.ConfigServiceImpl  implements ConfigService  {
+  TEMPLATE_CONFIG_TYPE : String
+  configServiceMap : Map<String,GeneralConfigService>
+  ConfigServiceImpl(generalConfigServices : List<GeneralConfigService>) : None
+  saveConfig(type : String, config : Object) : void
+  getConfig(type : String) : Object
+  updateTemplateAppConfig(app : String, template : TemplateConfig.AppTemplate) : void
+}
+class org.apache.hertzbeat.manager.service.impl.DefaultPluginRunner  implements PluginRunner  {
+  pluginService : PluginService
+  pluginExecute(clazz : Class<T>, execute : Consumer<T>) : void
+  pluginExecute(clazz : Class<T>, execute : BiConsumer<T,PluginContext>) : void
+}
+org.apache.hertzbeat.manager.service.impl.DefaultPluginRunner::pluginExecute --> org.apache.hertzbeat.manager.service.PluginService::pluginExecute : pluginService.pluginExecute(clazz,execute) 
+org.apache.hertzbeat.manager.service.impl.DefaultPluginRunner::pluginExecute --> org.apache.hertzbeat.manager.service.PluginService::pluginExecute : pluginService.pluginExecute(clazz,execute) 
+class org.apache.hertzbeat.manager.service.impl.ExcelImExportServiceImpl extends AbstractImExportServiceImpl   {
+  type() : String
+  getFileName() : String
+  parseImport(is : InputStream) : List<ExportMonitorDTO>
+  extractMonitorDataFromRow(row : Row) : MonitorDTO
+  extractParamDataFromRow(row : Row) : ParamDTO
+  getCellValueAsString(cell : Cell) : String
+  getCellValueAsBoolean(cell : Cell) : boolean
+  getCellValueAsInteger(cell : Cell) : Integer
+  getCellValueAsByte(cell : Cell) : Byte
+  writeOs(monitorList : List<ExportMonitorDTO>, os : OutputStream) : void
+}
+org.apache.hertzbeat.manager.service.impl.ExcelImExportServiceImpl::writeOs --> java.io.OutputStream::close : os.close() 
+class org.apache.hertzbeat.manager.service.impl.JsonImExportServiceImpl extends AbstractImExportServiceImpl   {
+  objectMapper : ObjectMapper
+  parseImport(is : InputStream) : List<ExportMonitorDTO>
+  writeOs(monitorList : List<ExportMonitorDTO>, os : OutputStream) : void
+  type() : String
+  getFileName() : String
+}
+org.apache.hertzbeat.manager.service.impl.JsonImExportServiceImpl::parseImport --> com.fasterxml.jackson.databind.ObjectMapper::readValue : objectMapper.readValue(is,newTypeReference<>(){}) 
+org.apache.hertzbeat.manager.service.impl.JsonImExportServiceImpl::writeOs --> com.fasterxml.jackson.databind.ObjectMapper::writeValue : objectMapper.writeValue(os,monitorList) 
+class org.apache.hertzbeat.manager.service.impl.MailGeneralConfigServiceImpl extends AbstractGeneralConfigServiceImpl<MailServerConfig>   {
+  MailGeneralConfigServiceImpl(generalConfigDao : GeneralConfigDao, objectMapper : ObjectMapper) : None
+  type() : String
+  getTypeReference() : TypeReference<MailServerConfig>
+  getType() : Type
+}
+class org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl  implements MonitorService  {
+  PATTERN_HTTP : String
+  PATTERN_HTTPS : String
+  MONITOR_ID_TMP : Long
+  ALL_MONITOR_STATUS : byte
+  TAG_LENGTH : int
+  CONTENT_VALUE : String
+  imExportServiceMap : Map<String,ImExportService>
+  appService : AppService
+  tagService : TagService
+  collectJobScheduling : CollectJobScheduling
+  monitorDao : MonitorDao
+  paramDao : ParamDao
+  monitorBindDao : MonitorBindDao
+  collectorDao : CollectorDao
+  collectorMonitorBindDao : CollectorMonitorBindDao
+  alertDefineBindDao : AlertDefineBindDao
+  applicationContext : ApplicationContext
+  warehouseService : WarehouseService
+  dashboardService : DashboardService
+  managerSseManager : ManagerSseManager
+  MonitorServiceImpl(imExportServiceList : List<ImExportService>) : None
+  detectMonitor(monitor : Monitor, params : List<Param>, collector : String) : void
+  addMonitor(monitor : Monitor, params : List<Param>, collector : String, grafanaDashboard : GrafanaDashboard) : void
+  export(ids : List<Long>, type : String, res : HttpServletResponse) : void
+  importConfig(file : MultipartFile) : void
+  validate(monitorDto : MonitorDto, isModify : Boolean) : void
+  modifyMonitor(monitor : Monitor, params : List<Param>, collector : String, grafanaDashboard : GrafanaDashboard) : void
+  deleteMonitor(id : long) : void
+  deleteMonitors(ids : Set<Long>) : void
+  getMonitorDto(id : long) : MonitorDto
+  getMonitors(monitorIds : List<Long>, app : String, search : String, status : Byte, sort : String, order : String, pageIndex : int, pageSize : int, labels : String) : Page<Monitor>
+  cancelManageMonitors(ids : HashSet<Long>) : void
+  enableManageMonitors(ids : HashSet<Long>) : void
+  getAllAppMonitorsCount() : List<AppCount>
+  copyMonitors(ids : List<Long>) : void
+  updateAppCollectJob(job : Job) : void
+  addAndSaveMonitorJob(monitor : Monitor, params : List<Param>, collector : String, sdMonitorParam : SdMonitorParam, grafanaDashboard : GrafanaDashboard) : void
+  getMonitor(monitorId : Long) : Monitor
+  updateMonitorStatus(monitorId : Long, status : byte) : void
+  getAppMonitors(app : String) : List<Monitor>
+  resetMetricsCommonField(monitor : Monitor, appDefine : Job, sdMonitorParam : SdMonitorParam) : void
+  copyMonitor(monitor : Monitor, params : List<Param>) : void
+  collectOneTimeSdData(monitor : Monitor, collector : String, sdParam : Param) : void
+  detectMonitorDirectly(monitor : Monitor, params : List<Param>, collector : String) : void
+  copyMonitor(id : Long) : void
+}
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::importConfig --> org.apache.hertzbeat.manager.config.ManagerSseManager::broadcastImportTaskFail : managerSseManager.broadcastImportTaskFail(fileName,e.getMessage()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::validate --> org.apache.hertzbeat.manager.service.AppService::getAppDefineOption : appService.getAppDefineOption(monitor.getName()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::validate --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorByNameEquals : monitorDao.findMonitorByNameEquals(monitor.getName()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::validate --> org.apache.hertzbeat.manager.dao.CollectorDao::findCollectorByName : collectorDao.findCollectorByName(monitorDto.getCollector()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::validate --> org.apache.hertzbeat.manager.service.AppService::getAppParamDefines : appService.getAppParamDefines(monitorDto.getMonitor().getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.MonitorDao::findById : monitorDao.findById(monitorId) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(monitor.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findMonitorBindByBizIdAndMonitorIdAndType : monitorBindDao.findMonitorBindByBizIdAndMonitorIdAndType(Long.valueOf(label.getValue()),monitorId,CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findMonitorBindByBizIdAndType : monitorBindDao.findMonitorBindByBizIdAndType(monitorId,CommonConstants.MONITOR_BIND_TYPE_SD_MAIN_MONITOR) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.MonitorBindDao::save : monitorBindDao.save(Objects.requireNonNull(SdMonitorOperator.buildSdMainMonitorBind(SdMonitorParam.builder().sdParam(sdParam.get()).build(),monitorId))) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::updateAsyncCollectJob : collectJobScheduling.updateAsyncCollectJob(appDefine) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::updateAsyncCollectJob : collectJobScheduling.updateAsyncCollectJob(appDefine,collector) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::deleteCollectorMonitorBindsByMonitorId : collectorMonitorBindDao.deleteCollectorMonitorBindsByMonitorId(monitorId) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::save : collectorMonitorBindDao.save(collectorMonitorBind) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.grafana.service.DashboardService::createOrUpdateDashboard : dashboardService.createOrUpdateDashboard(grafanaDashboard.getTemplate(),monitorId) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.grafana.service.DashboardService::closeGrafanaDashboard : dashboardService.closeGrafanaDashboard(monitorId) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.MonitorDao::save : monitorDao.save(monitor) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findMonitorBindByBizIdAndType : monitorBindDao.findMonitorBindByBizIdAndType(monitorId,CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.dao.ParamDao::saveAll : paramDao.saveAll(params) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::modifyMonitor --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::cancelAsyncCollectJob : collectJobScheduling.cancelAsyncCollectJob(monitor.getJobId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByBizIdInAndType : monitorBindDao.findAllByBizIdInAndType(ids,CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::deleteAll : monitorDao.deleteAll(monitors) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.apache.hertzbeat.manager.dao.ParamDao::deleteParamsByMonitorIdIn : paramDao.deleteParamsByMonitorIdIn(ids) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.apache.hertzbeat.alert.dao.AlertDefineBindDao::deleteAlertDefineMonitorBindsByMonitorIdIn : alertDefineBindDao.deleteAlertDefineMonitorBindsByMonitorIdIn(monitorIds) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.apache.hertzbeat.manager.dao.MonitorBindDao::deleteByMonitorId : monitorBindDao.deleteByMonitorId(monitor.getId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::deleteCollectorMonitorBindsByMonitorId : collectorMonitorBindDao.deleteCollectorMonitorBindsByMonitorId(monitor.getId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::cancelAsyncCollectJob : collectJobScheduling.cancelAsyncCollectJob(monitor.getJobId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::deleteMonitors --> org.springframework.context.ApplicationContext::publishEvent : applicationContext.publishEvent(newMonitorDeletedEvent(applicationContext,monitor.getId())) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitorDto --> org.apache.hertzbeat.manager.dao.MonitorDao::findById : monitorDao.findById(id) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitorDto --> org.apache.hertzbeat.manager.dao.ParamDao::findParamsByMonitorId : paramDao.findParamsByMonitorId(id) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitorDto --> org.apache.hertzbeat.warehouse.service.WarehouseService::queryMonitorMetricsData : warehouseService.queryMonitorMetricsData(id) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitorDto --> org.apache.hertzbeat.grafana.service.DashboardService::getDashboardByMonitorId : dashboardService.getDashboardByMonitorId(id) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitorDto --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(monitor.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitorDto --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::findCollectorMonitorBindByMonitorId : collectorMonitorBindDao.findCollectorMonitorBindByMonitorId(monitor.getId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findAll : monitorDao.findAll(specification,pageRequest) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByBizIdInAndType : monitorBindDao.findAllByBizIdInAndType(ids,CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR).stream().map(MonitorBind::getMonitorId).collect(Collectors.toSet()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByBizIdInAndType : monitorBindDao.findAllByBizIdInAndType(ids,CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR).stream().map(MonitorBind::getMonitorId) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByBizIdInAndType : monitorBindDao.findAllByBizIdInAndType(ids,CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR).stream() 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findAllByBizIdInAndType : monitorBindDao.findAllByBizIdInAndType(ids,CommonConstants.MONITOR_BIND_TYPE_SD_SUB_MONITOR) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids).stream().filter(monitor->monitor.getStatus()!=CommonConstants.MONITOR_PAUSED_CODE).peek(monitor->monitor.setStatus(CommonConstants.MONITOR_PAUSED_CODE)).collect(Collectors.toList()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids).stream().filter(monitor->monitor.getStatus()!=CommonConstants.MONITOR_PAUSED_CODE).peek(monitor->monitor.setStatus(CommonConstants.MONITOR_PAUSED_CODE)) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids).stream().filter(monitor->monitor.getStatus()!=CommonConstants.MONITOR_PAUSED_CODE) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids).stream() 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::cancelAsyncCollectJob : collectJobScheduling.cancelAsyncCollectJob(monitor.getJobId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::cancelManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::saveAll : monitorDao.saveAll(managedMonitors) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids).stream().filter(monitor->monitor.getStatus()==CommonConstants.MONITOR_PAUSED_CODE).peek(monitor->monitor.setStatus(CommonConstants.MONITOR_UP_CODE)).collect(Collectors.toList()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids).stream().filter(monitor->monitor.getStatus()==CommonConstants.MONITOR_PAUSED_CODE).peek(monitor->monitor.setStatus(CommonConstants.MONITOR_UP_CODE)) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids).stream().filter(monitor->monitor.getStatus()==CommonConstants.MONITOR_PAUSED_CODE) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids).stream() 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByIdIn : monitorDao.findMonitorsByIdIn(ids) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.ParamDao::findParamsByMonitorId : paramDao.findParamsByMonitorId(monitor.getId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(monitor.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorBindDao::findMonitorBindByBizIdAndType : monitorBindDao.findMonitorBindByBizIdAndType(monitor.getId(),CommonConstants.MONITOR_BIND_TYPE_SD_MAIN_MONITOR) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorBindDao::save : monitorBindDao.save(Objects.requireNonNull(SdMonitorOperator.buildSdMainMonitorBind(SdMonitorParam.builder().sdParam(sdParam.get()).build(),monitor.getId()))) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::findCollectorMonitorBindByMonitorId : collectorMonitorBindDao.findCollectorMonitorBindByMonitorId(monitor.getId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::addAsyncCollectJob : collectJobScheduling.addAsyncCollectJob(appDefine,collector) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.springframework.context.ApplicationContext::publishEvent : applicationContext.publishEvent(newMonitorDeletedEvent(applicationContext,monitor.getId())) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::enableManageMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::saveAll : monitorDao.saveAll(unManagedMonitors) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getAllAppMonitorsCount --> org.apache.hertzbeat.manager.dao.MonitorDao::findAppsStatusCount : monitorDao.findAppsStatusCount() 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getAllAppMonitorsCount --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(item.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findById : monitorDao.findById(id) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitors --> org.apache.hertzbeat.manager.dao.ParamDao::findParamsByMonitorId : paramDao.findParamsByMonitorId(id) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateAppCollectJob --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByAppEquals : monitorDao.findMonitorsByAppEquals(job.getApp()).stream().filter(monitor->monitor.getStatus()!=CommonConstants.MONITOR_PAUSED_CODE).toList() 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateAppCollectJob --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByAppEquals : monitorDao.findMonitorsByAppEquals(job.getApp()).stream().filter(monitor->monitor.getStatus()!=CommonConstants.MONITOR_PAUSED_CODE) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateAppCollectJob --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByAppEquals : monitorDao.findMonitorsByAppEquals(job.getApp()).stream() 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateAppCollectJob --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByAppEquals : monitorDao.findMonitorsByAppEquals(job.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateAppCollectJob --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::findCollectorMonitorBindsByMonitorIdIn : collectorMonitorBindDao.findCollectorMonitorBindsByMonitorIdIn(monitors.stream().map(Monitor::getId).collect(Collectors.toSet())) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateAppCollectJob --> org.apache.hertzbeat.manager.dao.ParamDao::findParamsByMonitorId : paramDao.findParamsByMonitorId(monitor.getId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateAppCollectJob --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::updateAsyncCollectJob : collectJobScheduling.updateAsyncCollectJob(appDefine,collector) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateAppCollectJob --> org.apache.hertzbeat.manager.dao.MonitorDao::save : monitorDao.save(monitor) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(monitor.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::addAsyncCollectJob : collectJobScheduling.addAsyncCollectJob(appDefine,null) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::addAsyncCollectJob : collectJobScheduling.addAsyncCollectJob(appDefine,collector) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::save : collectorMonitorBindDao.save(collectorMonitorBind) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.grafana.service.DashboardService::createOrUpdateDashboard : dashboardService.createOrUpdateDashboard(grafanaDashboard.getTemplate(),monitorId) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.manager.dao.MonitorDao::save : monitorDao.save(monitor) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.manager.dao.MonitorBindDao::save : monitorBindDao.save(monitorBind) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.manager.dao.ParamDao::saveAll : paramDao.saveAll(params) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::addAndSaveMonitorJob --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::cancelAsyncCollectJob : collectJobScheduling.cancelAsyncCollectJob(jobId) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitor --> org.apache.hertzbeat.manager.dao.MonitorDao::findById : monitorDao.findById(monitorId).orElse(null) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getMonitor --> org.apache.hertzbeat.manager.dao.MonitorDao::findById : monitorDao.findById(monitorId) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::updateMonitorStatus --> org.apache.hertzbeat.manager.dao.MonitorDao::updateMonitorStatus : monitorDao.updateMonitorStatus(monitorId,status) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::getAppMonitors --> org.apache.hertzbeat.manager.dao.MonitorDao::findMonitorsByAppEquals : monitorDao.findMonitorsByAppEquals(app) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::collectOneTimeSdData --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(monitor.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::collectOneTimeSdData --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::collectSyncJobData : collectJobScheduling.collectSyncJobData(sdJob,collector) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::collectOneTimeSdData --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::collectSyncJobData : collectJobScheduling.collectSyncJobData(sdJob) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::detectMonitorDirectly --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(monitor.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::detectMonitorDirectly --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::collectSyncJobData : collectJobScheduling.collectSyncJobData(appDefine,collector) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::detectMonitorDirectly --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::collectSyncJobData : collectJobScheduling.collectSyncJobData(appDefine) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.dao.MonitorDao::findById : monitorDao.findById(id) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.dao.ParamDao::findParamsByMonitorId : paramDao.findParamsByMonitorId(id) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.dao.MonitorDao::save : monitorDao.save(newMonitor) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.dao.ParamDao::saveAll : paramDao.saveAll(newParams) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.service.AppService::getAppDefine : appService.getAppDefine(newMonitor.getApp()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::findCollectorMonitorBindByMonitorId : collectorMonitorBindDao.findCollectorMonitorBindByMonitorId(sourceMonitor.getId()) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.scheduler.CollectJobScheduling::addAsyncCollectJob : collectJobScheduling.addAsyncCollectJob(appDefine,collector) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.dao.MonitorDao::save : monitorDao.save(newMonitor) 
+org.apache.hertzbeat.manager.service.impl.MonitorServiceImpl::copyMonitor --> org.apache.hertzbeat.manager.dao.CollectorMonitorBindDao::save : collectorMonitorBindDao.save(newBind) 
+class org.apache.hertzbeat.manager.service.impl.MuteGeneralConfigServiceImpl extends AbstractGeneralConfigServiceImpl<MuteConfig>   {
+  MuteGeneralConfigServiceImpl(generalConfigDao : GeneralConfigDao, objectMapper : ObjectMapper) : None
+  getTypeReference() : TypeReference<MuteConfig>
+  getType() : Type
+  type() : String
+  handler(config : MuteConfig) : void
+}
+class org.apache.hertzbeat.manager.service.impl.ObjectStoreConfigServiceImpl extends AbstractGeneralConfigServiceImpl<ObjectStoreDTO<ObjectStoreDTO.ObsConfig>> implements InitializingBean  {
+  BEAN_NAME : String
+  beanFactory : DefaultListableBeanFactory
+  ctx : ApplicationContext
+  ObjectStoreConfigServiceImpl(generalConfigDao : GeneralConfigDao, objectMapper : ObjectMapper) : None
+  type() : String
+  getTypeReference() : TypeReference<ObjectStoreDTO<ObjectStoreDTO.ObsConfig>>
+  getType() : Type
+  handler(config : ObjectStoreDTO<ObjectStoreDTO.ObsConfig>) : void
+  initObs(config : ObjectStoreDTO<ObjectStoreDTO.ObsConfig>) : void
+  validateObsEndpoint(endpoint : String) : void
+  afterPropertiesSet() : void
+}
+org.apache.hertzbeat.manager.service.impl.ObjectStoreConfigServiceImpl::handler --> org.springframework.context.ApplicationContext::publishEvent : ctx.publishEvent(newObjectStoreConfigChangeEvent(config)) 
+org.apache.hertzbeat.manager.service.impl.ObjectStoreConfigServiceImpl::initObs --> org.springframework.beans.factory.support.DefaultListableBeanFactory::destroySingleton : beanFactory.destroySingleton(BEAN_NAME) 
+org.apache.hertzbeat.manager.service.impl.ObjectStoreConfigServiceImpl::initObs --> org.springframework.beans.factory.support.DefaultListableBeanFactory::registerSingleton : beanFactory.registerSingleton(BEAN_NAME,newObsObjectStoreServiceImpl(obsClient,obsConfig.getBucketName(),obsConfig.getSavePath())) 
+class org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl  implements ObjectStoreService  {
+  obsClient : ObsClient
+  bucketName : String
+  rootPath : String
+  ObsObjectStoreServiceImpl(obsClient : ObsClient, bucketName : String, rootPath : String) : None
+  upload(filePath : String, is : InputStream) : boolean
+  remove(filePath : String) : void
+  isExist(filePath : String) : boolean
+  download(filePath : String) : FileDTO
+  list(dir : String) : List<FileDTO>
+  type() : ObjectStoreDTO.Type
+  getObjectKey(filePath : String) : String
+}
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::upload --> com.obs.services.ObsClient::putObject : obsClient.putObject(bucketName,objectKey,is) 
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::remove --> com.obs.services.ObsClient::deleteObject : obsClient.deleteObject(bucketName,objectKey) 
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::isExist --> com.obs.services.ObsClient::doesObjectExist : obsClient.doesObjectExist(bucketName,objectKey) 
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::download --> com.obs.services.ObsClient::getObject : obsClient.getObject(bucketName,objectKey) 
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::list --> com.obs.services.ObsClient::listObjects : obsClient.listObjects(request).getObjects().stream().map(it->newFileDTO(it.getObjectKey(),it.getObjectContent())).toList() 
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::list --> com.obs.services.ObsClient::listObjects : obsClient.listObjects(request).getObjects().stream().map(it->newFileDTO(it.getObjectKey(),it.getObjectContent())) 
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::list --> com.obs.services.ObsClient::listObjects : obsClient.listObjects(request).getObjects().stream() 
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::list --> com.obs.services.ObsClient::listObjects : obsClient.listObjects(request).getObjects() 
+org.apache.hertzbeat.manager.service.impl.ObsObjectStoreServiceImpl::list --> com.obs.services.ObsClient::listObjects : obsClient.listObjects(request) 
+class org.apache.hertzbeat.manager.service.impl.PluginServiceImpl  implements PluginService  {
+  metadataDao : PluginMetadataDao
+  itemDao : PluginItemDao
+  pluginParamDao : PluginParamDao
+  PLUGIN_TYPE_MAPPING : Map<Class<?>,PluginType>
+  PLUGIN_ENABLE_STATUS : Map<String,Boolean>
+  PARAMS_CONFIG_MAP : Map<Long,PluginConfig>
+  PARAMS_MAP : Map<Long,List<Configmap>>
+  ITEM_TO_PLUGINMETADATAID_MAP : Map<String,Long>
+  pluginClassLoaders : List<URLClassLoader>
+  deletePlugins(ids : Set<Long>) : void
+  getOtherLibDir(pluginJarPath : String) : String
+  updateStatus(plugin : PluginMetadata) : void
+  getParamDefine(pluginMetadataId : Long) : PluginParametersVO
+  savePluginParam(params : List<PluginParam>) : void
+  syncPluginParamMap(pluginMetadataId : Long, params : List<PluginParam>, isDelete : boolean) : void
+  validateJarFile(jarFile : File) : PluginMetadata
+  validateMetadata(metadata : PluginMetadata) : void
+  savePlugin(pluginUpload : PluginUpload) : void
+  validateFileName(fileName : String) : void
+  pluginIsEnable(clazz : Class<?>) : boolean
+  getPlugins(search : String, pageIndex : int, pageSize : int) : Page<PluginMetadata>
+  syncPluginStatus() : void
+  syncSinglePluginStatus(plugin : PluginMetadata) : void
+  initParams() : void
+  loadJarToClassLoader() : void
+  loadLibInPlugin(pluginJarPath : String, pluginMetadataId : Long) : List<URL>
+  readPluginConfig(jarFile : JarFile, entry : JarEntry) : PluginConfig
+  pluginExecute(clazz : Class<T>, execute : Consumer<T>) : void
+  pluginExecute(clazz : Class<T>, execute : BiConsumer<T,PluginContext>) : void
+}
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::deletePlugins --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::findAllById : metadataDao.findAllById(ids) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::deletePlugins --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::deleteById : metadataDao.deleteById(plugin.getId()) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::deletePlugins --> org.apache.hertzbeat.manager.dao.PluginParamDao::deletePluginParamsByPluginMetadataIdIn : pluginParamDao.deletePluginParamsByPluginMetadataIdIn(ids) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::updateStatus --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::findById : metadataDao.findById(plugin.getId()) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::updateStatus --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::save : metadataDao.save(metadata) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::getParamDefine --> org.apache.hertzbeat.manager.dao.PluginParamDao::findParamsByPluginMetadataId : pluginParamDao.findParamsByPluginMetadataId(pluginMetadataId) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::savePluginParam --> org.apache.hertzbeat.manager.dao.PluginParamDao::deletePluginParamsByPluginMetadataId : pluginParamDao.deletePluginParamsByPluginMetadataId(params.get(0).getPluginMetadataId()) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::savePluginParam --> org.apache.hertzbeat.manager.dao.PluginParamDao::saveAll : pluginParamDao.saveAll(params) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::validateMetadata --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::countPluginMetadataByName : metadataDao.countPluginMetadataByName(metadata.getName()) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::savePlugin --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::save : metadataDao.save(pluginMetadata) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::savePlugin --> org.apache.hertzbeat.manager.dao.PluginItemDao::saveAll : itemDao.saveAll(pluginItems) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::getPlugins --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::findAll : metadataDao.findAll(specification,pageRequest) 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::syncPluginStatus --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::findAll : metadataDao.findAll() 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::initParams --> org.apache.hertzbeat.manager.dao.PluginParamDao::findAll : pluginParamDao.findAll() 
+org.apache.hertzbeat.manager.service.impl.PluginServiceImpl::loadJarToClassLoader --> org.apache.hertzbeat.manager.dao.PluginMetadataDao::findPluginMetadataByEnableStatusTrue : metadataDao.findPluginMetadataByEnableStatusTrue() 
+class org.apache.hertzbeat.manager.service.impl.SmsGeneralConfigServiceImpl extends AbstractGeneralConfigServiceImpl<SmsConfig>   {
+  applicationContext : ApplicationContext
+  SmsGeneralConfigServiceImpl(generalConfigDao : GeneralConfigDao, objectMapper : ObjectMapper) : None
+  handler(smsConfig : SmsConfig) : void
+  type() : String
+  getTypeReference() : TypeReference<SmsConfig>
+  getType() : Type
+}
+org.apache.hertzbeat.manager.service.impl.SmsGeneralConfigServiceImpl::handler --> org.springframework.context.ApplicationContext::publishEvent : applicationContext.publishEvent(newSmsConfigChangeEvent(applicationContext)) 
+class org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl  implements StatusPageService  {
+  HISTORY_SPAN_DAYS : int
+  statusPageOrgDao : StatusPageOrgDao
+  statusPageComponentDao : StatusPageComponentDao
+  statusPageHistoryDao : StatusPageHistoryDao
+  statusPageIncidentDao : StatusPageIncidentDao
+  calculateStatus : CalculateStatus
+  statusPageIncidentComponentBindDao : StatusPageIncidentComponentBindDao
+  queryStatusPageOrg() : StatusPageOrg
+  saveStatusPageOrg(statusPageOrg : StatusPageOrg) : StatusPageOrg
+  queryStatusPageComponents() : List<StatusPageComponent>
+  newStatusPageComponent(statusPageComponent : StatusPageComponent) : void
+  updateStatusPageComponent(statusPageComponent : StatusPageComponent) : void
+  deleteStatusPageComponent(id : long) : void
+  queryStatusPageComponent(id : long) : StatusPageComponent
+  queryComponentsStatus() : List<ComponentStatus>
+  combineOneDayStatusPageHistory(statusPageHistories : List<StatusPageHistory>, component : StatusPageComponent, nowTimestamp : long) : StatusPageHistory
+  queryComponentStatus(id : long) : ComponentStatus
+  queryStatusPageIncidents() : List<StatusPageIncident>
+  queryStatusPageIncident(id : long) : StatusPageIncident
+  newStatusPageIncident(statusPageIncident : StatusPageIncident) : void
+  updateStatusPageIncident(statusPageIncident : StatusPageIncident) : void
+  deleteStatusPageIncident(id : long) : void
+}
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageOrg --> org.apache.hertzbeat.manager.dao.StatusPageOrgDao::findAll : statusPageOrgDao.findAll().stream().findFirst().orElse(null) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageOrg --> org.apache.hertzbeat.manager.dao.StatusPageOrgDao::findAll : statusPageOrgDao.findAll().stream().findFirst() 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageOrg --> org.apache.hertzbeat.manager.dao.StatusPageOrgDao::findAll : statusPageOrgDao.findAll().stream() 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageOrg --> org.apache.hertzbeat.manager.dao.StatusPageOrgDao::findAll : statusPageOrgDao.findAll() 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::saveStatusPageOrg --> org.apache.hertzbeat.manager.dao.StatusPageOrgDao::save : statusPageOrgDao.save(statusPageOrg) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageComponents --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::findAll : statusPageComponentDao.findAll() 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::newStatusPageComponent --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::save : statusPageComponentDao.save(statusPageComponent) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::updateStatusPageComponent --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::save : statusPageComponentDao.save(statusPageComponent) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::deleteStatusPageComponent --> org.apache.hertzbeat.manager.dao.StatusPageIncidentComponentBindDao::countByComponentId : statusPageIncidentComponentBindDao.countByComponentId(id) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::deleteStatusPageComponent --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::deleteById : statusPageComponentDao.deleteById(id) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageComponent --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::findById : statusPageComponentDao.findById(id).orElse(null) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageComponent --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::findById : statusPageComponentDao.findById(id) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentsStatus --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::findAll : statusPageComponentDao.findAll() 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentsStatus --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::findStatusPageHistoriesByComponentIdAndTimestampBetween : statusPageHistoryDao.findStatusPageHistoriesByComponentIdAndTimestampBetween(component.getId(),todayStartTimestamp,nowTimestamp) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentsStatus --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::findStatusPageHistoriesByComponentIdAndTimestampBetween : statusPageHistoryDao.findStatusPageHistoriesByComponentIdAndTimestampBetween(component.getId(),preTimestamp,todayStartTimestamp) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentsStatus --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::deleteAll : statusPageHistoryDao.deleteAll(thisDayHistory) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentsStatus --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::save : statusPageHistoryDao.save(statusPageHistory) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::combineOneDayStatusPageHistory --> org.apache.hertzbeat.manager.component.status.CalculateStatus::getCalculateStatusIntervals : calculateStatus.getCalculateStatusIntervals() 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::combineOneDayStatusPageHistory --> org.apache.hertzbeat.manager.component.status.CalculateStatus::getCalculateStatusIntervals : calculateStatus.getCalculateStatusIntervals() 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::combineOneDayStatusPageHistory --> org.apache.hertzbeat.manager.component.status.CalculateStatus::getCalculateStatusIntervals : calculateStatus.getCalculateStatusIntervals() 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentStatus --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::findById : statusPageComponentDao.findById(id).orElseThrow(()->newIllegalArgumentException("component not found")) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentStatus --> org.apache.hertzbeat.manager.dao.StatusPageComponentDao::findById : statusPageComponentDao.findById(id) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentStatus --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::findStatusPageHistoriesByComponentIdAndTimestampBetween : statusPageHistoryDao.findStatusPageHistoriesByComponentIdAndTimestampBetween(component.getId(),todayStartTimestamp,nowTimestamp) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentStatus --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::findStatusPageHistoriesByComponentIdAndTimestampBetween : statusPageHistoryDao.findStatusPageHistoriesByComponentIdAndTimestampBetween(component.getId(),preTimestamp,todayStartTimestamp) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentStatus --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::deleteAll : statusPageHistoryDao.deleteAll(thisDayHistory) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryComponentStatus --> org.apache.hertzbeat.manager.dao.StatusPageHistoryDao::save : statusPageHistoryDao.save(statusPageHistory) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageIncidents --> org.apache.hertzbeat.manager.dao.StatusPageIncidentDao::findAll : statusPageIncidentDao.findAll(sort) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageIncident --> org.apache.hertzbeat.manager.dao.StatusPageIncidentDao::findById : statusPageIncidentDao.findById(id).orElse(null) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::queryStatusPageIncident --> org.apache.hertzbeat.manager.dao.StatusPageIncidentDao::findById : statusPageIncidentDao.findById(id) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::newStatusPageIncident --> org.apache.hertzbeat.manager.dao.StatusPageIncidentDao::save : statusPageIncidentDao.save(statusPageIncident) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::updateStatusPageIncident --> org.apache.hertzbeat.manager.dao.StatusPageIncidentDao::save : statusPageIncidentDao.save(statusPageIncident) 
+org.apache.hertzbeat.manager.service.impl.StatusPageServiceImpl::deleteStatusPageIncident --> org.apache.hertzbeat.manager.dao.StatusPageIncidentDao::deleteById : statusPageIncidentDao.deleteById(id) 
+class org.apache.hertzbeat.manager.service.impl.SystemGeneralConfigServiceImpl extends AbstractGeneralConfigServiceImpl<SystemConfig>   {
+  applicationContext : ApplicationContext
+  SystemGeneralConfigServiceImpl(generalConfigDao : GeneralConfigDao, objectMapper : ObjectMapper) : None
+  handler(systemConfig : SystemConfig) : void
+  type() : String
+  getTypeReference() : TypeReference<SystemConfig>
+  getType() : Type
+}
+org.apache.hertzbeat.manager.service.impl.SystemGeneralConfigServiceImpl::handler --> org.springframework.context.ApplicationContext::publishEvent : applicationContext.publishEvent(newSystemConfigChangeEvent(applicationContext)) 
+class org.apache.hertzbeat.manager.service.impl.SystemSecretServiceImpl extends AbstractGeneralConfigServiceImpl<SystemSecret>   {
+  SystemSecretServiceImpl(generalConfigDao : GeneralConfigDao, objectMapper : ObjectMapper) : None
+  type() : String
+  getTypeReference() : TypeReference<SystemSecret>
+  getType() : Type
+}
+class org.apache.hertzbeat.manager.service.impl.TagServiceImpl  implements TagService  {
+  tagDao : TagDao
+  addTags(tags : List<Tag>) : void
+  modifyTag(tag : Tag) : void
+  getTags(search : String, type : Byte, pageIndex : int, pageSize : int) : Page<Tag>
+  deleteTags(ids : HashSet<Long>) : void
+}
+org.apache.hertzbeat.manager.service.impl.TagServiceImpl::addTags --> org.apache.hertzbeat.manager.dao.TagDao::findTagByNameAndTagValue : tagDao.findTagByNameAndTagValue(tag.getName(),tag.getTagValue()) 
+org.apache.hertzbeat.manager.service.impl.TagServiceImpl::addTags --> org.apache.hertzbeat.manager.dao.TagDao::saveAll : tagDao.saveAll(tags) 
+org.apache.hertzbeat.manager.service.impl.TagServiceImpl::modifyTag --> org.apache.hertzbeat.manager.dao.TagDao::findById : tagDao.findById(tag.getId()) 
+org.apache.hertzbeat.manager.service.impl.TagServiceImpl::modifyTag --> org.apache.hertzbeat.manager.dao.TagDao::findTagByNameAndTagValue : tagDao.findTagByNameAndTagValue(tag.getName(),tag.getTagValue()) 
+org.apache.hertzbeat.manager.service.impl.TagServiceImpl::modifyTag --> org.apache.hertzbeat.manager.dao.TagDao::save : tagDao.save(tag) 
+org.apache.hertzbeat.manager.service.impl.TagServiceImpl::getTags --> org.apache.hertzbeat.manager.dao.TagDao::findAll : tagDao.findAll(specification,pageRequest) 
+org.apache.hertzbeat.manager.service.impl.TagServiceImpl::deleteTags --> org.apache.hertzbeat.manager.dao.TagDao::deleteTagsByIdIn : tagDao.deleteTagsByIdIn(ids) 
+class org.apache.hertzbeat.manager.service.impl.TemplateConfigServiceImpl extends AbstractGeneralConfigServiceImpl<TemplateConfig>   {
+  appService : AppService
+  TemplateConfigServiceImpl(generalConfigDao : GeneralConfigDao, objectMapper : ObjectMapper) : None
+  handler(templateConfig : TemplateConfig) : void
+  type() : String
+  getTypeReference() : TypeReference<TemplateConfig>
+  getType() : Type
+}
+org.apache.hertzbeat.manager.service.impl.TemplateConfigServiceImpl::handler --> org.apache.hertzbeat.manager.service.AppService::updateCustomTemplateConfig : appService.updateCustomTemplateConfig(templateConfig) 
+class org.apache.hertzbeat.manager.service.impl.YamlImExportServiceImpl extends AbstractImExportServiceImpl   {
+  type() : String
+  getFileName() : String
+  parseImport(is : InputStream) : List<ExportMonitorDTO>
+  writeOs(monitorList : List<ExportMonitorDTO>, os : OutputStream) : void
+}
+class org.apache.hertzbeat.manager.support.GlobalExceptionHandler    {
+  CONNECT_STR : String
+  handleMonitorDetectException(exception : MonitorDetectException) : ResponseEntity<Message<Void>>
+  handleMonitorDatabaseException(exception : MonitorDatabaseException) : ResponseEntity<Message<Void>>
+  handleCommonException(exception : CommonException) : ResponseEntity<Message<Void>>
+  handleIllegalArgumentException(exception : IllegalArgumentException) : ResponseEntity<Message<Void>>
+  handleAlertNoticeException(noticeException : AlertNoticeException) : ResponseEntity<Message<Void>>
+  handleHttpMessageNotReadableException(exception : HttpMessageNotReadableException) : ResponseEntity<Message<Void>>
+  handleInputValidException(e : Exception) : ResponseEntity<Message<Void>>
+  handleInputOtherValidException(e : ConstraintViolationException) : ResponseEntity<Message<Void>>
+  handleDataAccessException(exception : DataAccessException) : ResponseEntity<Message<Void>>
+  handleMethodNotSupportException(exception : HttpRequestMethodNotSupportedException) : ResponseEntity<Message<Void>>
+  handleMonitorMetricsException(exception : MonitorMetricsException) : ResponseEntity<Message<Void>>
+  ignoreNoResourceFoundException(ex : Exception) : void
+  handleUnknownException(exception : Exception) : ResponseEntity<Message<Void>>
+}
+class org.apache.hertzbeat.manager.support.exception.MonitorDatabaseException extends RuntimeException   {
+  MonitorDatabaseException(message : String) : None
+}
+class org.apache.hertzbeat.manager.support.exception.MonitorDetectException extends RuntimeException   {
+  MonitorDetectException(message : String) : None
+}
+class org.apache.hertzbeat.manager.support.exception.MonitorMetricsException extends RuntimeException   {
+  MonitorMetricsException(message : String) : None
+}
+@enduml
+Question:
+what is the call flow to `TagService::deleteTags()` method?
+### AI Assistant:
